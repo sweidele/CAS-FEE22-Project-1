@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Todo App</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.3/handlebars.min.js"
+      integrity="sha256-/PJBs6QWvXijOFIX04kZpLb6ZtSQckdOIavLWKKOgXU="
+      crossorigin="anonymous"
+      defer
+    ></script>
+    <script src="scripts/controllers/controller.js" type="module" defer></script>
+
+      <script id="todoItemsTemplate" type="text/x-handlebars-template">
+        <ul>
+            {{#each this}}
+            <li>
+              <p>{{dueDate}}</p>
+              <p>{{title}}</p>
+              <p>{{importance}}</p>
+              <p>{{finished}}</p>
+              <p>{{descriptoon}}</p>
+              <button data-delta="1" data-todo-item-id="{{id}}">Edit</button>
+
+                <!-- <h3>
+                    {{rating}}
+                    <button data-delta="1" data-song-id="{{id}}">+</button>
+                    <button data-delta="-1" data-song-id="{{id}}">-</button>
+                    {{title}}
+                </h3>
+                <p>{{artist}}</p> -->
+            </li>
+            {{/each}}
+        </ul>
+    </script>
+
+    <link rel="stylesheet" href="styles/index.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <ul>
+          <li><button id="createItemButton">Create</button></li>
+          <li><button id="backButton" hidden="true">Back</button></li>
+          <li><button id="toogleStyleButton">Toogle Style</button></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+
+      <nav>
+        <ul>
+          <li><button id="filterNameButton">Name</button></li>
+          <li><button id="filterDueDateButton">By Due Date</button></li>
+          <li><button id="filterCreationDateButton">By Creation Date</button></li>
+          <li><button id="filterImportanceButton">By Importance</button></li>
+          <li><button id="filterCompletedButton">Filter Completed</button></li>
+        </ul>
+      </nav>
+
+    <div id="todoListContainer"></div>
+
+    <div id="addItemContainer" hidden="true" >
+      <form action="addItemAction">
+        <label>
+          <span>Titel</span>
+          <input id="title" name="title">
+        </label>
+        <label>
+          <span>Importance</span>
+          <input id="importance" name="importance" type="number">
+        </label>
+        <label>
+          <span>Due Date</span>
+          <input id="dueDate" name="dueDate" type="date">
+        </label>
+        <label>
+          <span>Description</span>
+          <input id="Description" name="Description">
+        </label>
+        <button>Add Item</button>
+      </form>
+    </div>
+
+    </main>
+
+    <footer>
+      <p>&copy; Stephan</p>
+    </footer>
+  </body>
+</html>
