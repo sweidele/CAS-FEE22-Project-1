@@ -3,15 +3,13 @@ import bodyParser from 'body-parser';
 import path, {dirname} from 'path';
 import jwt from 'express-jwt';
 
-// import {indexRoutes} from './routes/index-routes.js';
+import {todoItemsRoutes} from './routes/todoItemsRoutes.js';
 // import {orderRoutes} from './routes/order-routes.js';
 import {fileURLToPath} from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export const app = express();
-
-
 
 // app.use(express.static(path.resolve('public/html')));
 // app.use(express.static(path.resolve('public')));
@@ -32,7 +30,7 @@ app.get("/", function (req, res) {
 //     console.log(req.user || "no user");
 //     next();
 // });
-// app.use("/", indexRoutes);
+app.use("/todoItems", todoItemsRoutes);
 // app.use("/orders", orderRoutes);
 
 // app.use(function (err, req, res, next) {
