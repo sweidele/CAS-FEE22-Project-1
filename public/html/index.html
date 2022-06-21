@@ -9,13 +9,15 @@
       crossorigin="anonymous"
       defer
     ></script>
+    <script src="../scripts/utils/handlebarsHelpers.js" defer></script>
+
     <script src="../scripts/controllers/controller.js" type="module" defer></script>
 
     <script id="todoItemsTemplate" type="text/x-handlebars-template">
       <ul>
         {{#each this}}
         <li class="todo-item">
-          <p class="todo-item-duedate">{{dueDate}}</p>
+          <p class="todo-item-duedate">{{formatDate dueDate}}</p>
           <p class="todo-item-title">{{title}}</p>
           <p class="todo-item-importance">{{importance}}</p>
           <p class="todo-itemfinished">{{finished}}</p>

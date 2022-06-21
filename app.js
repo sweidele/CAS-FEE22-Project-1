@@ -35,6 +35,9 @@ app.get("/scripts/services/data/itemRemoteStore.js", function (req, res) {
     res.sendFile("/scripts/services/data/itemRemoteStore.js", {root: __dirname + '/public/'});
 });
 
+app.get("/scripts/utils/handlebarsHelpers.js", function (req, res) {
+    res.sendFile("/scripts/utils/handlebarsHelpers.js", {root: __dirname + '/public/'});
+});
 
 app.use(express.static(path.resolve('public/html')));
 app.use(express.static(path.resolve('public')));
