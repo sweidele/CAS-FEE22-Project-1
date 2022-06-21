@@ -14,5 +14,9 @@ module.exports = {
         indent: ['error', 4],
         quotes: ['off'],
         linebreakstyle: ['off'],
+        import-extensions: ['off'],
     },
 };
+
+
+/* eslint-disable import/extensions */

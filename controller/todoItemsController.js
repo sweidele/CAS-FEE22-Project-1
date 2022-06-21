@@ -1,31 +1,32 @@
 import {todoItemsStore} from '../services/todoItemsStore.js'
 
 export class TodoItemsController {
-    getTodoItems = async (req, res) => {
-        res.json((await todoItemsStore.getAllItemsSortedByCreationDate() || []));
+    getTodoItems = (req, res) => {
+        console.log("in getTodoItems");
+        res.json((todoItemsStore.getAllItemsSortedByCreationDate()));
+        res.end();
     };
 
-    createTodoItem = async (req, res) => {
-        res.json(await todoItemsStore.add(req.body.name, req.body.descripton, req.body.dueDate, req.body.mportance));
+    createTodoItem = (req, res) => {
+        console.log("in createTodoItem");
+
+        res.json(todoItemsStore.add(req.body.title, req.body.descripton, req.body.dueDate, req.body.importance));
+        res.end();
     };
 
-    getTodoItem = async (req, res) => {
-
-                        console.log("in get item");
-
-        res.json(await todoItemsStore.add("eq.body.name", "test", "", ""));
-
-        // res.json(await todoItemsStore.get(req.params.id));
+    updateTodoItem = (req, res) => {
+        console.log("in updateTodoItem");
+        res.json(todoItemsStore.update(
+            req.body.title, 
+            req.body.description, 
+            req.body.creationDate, 
+            req.body.dueDate, 
+            req.body.importance, 
+            req.body.finished,
+            req.params.id));
+        res.end();
     };
 
-    deleteTodoItem = async (req, res) => {
-        res.json(await todoItemsStore.delete(req.params.id)); // TODO should return 402 if not ok
-    };
 }
-
-// async add(name, descripton, dueDate, importance) {
-// async delete(id) {
-// async get(id) {
-// async getAllItemsSortedByCreationDate() {
 
 export const todoItemsController = new TodoItemsController();

@@ -1,29 +1,52 @@
-import {loadItems} from '../services/data/itemStore.js';
+import {ItemStore} from './data/itemRemoteStore.js';
 
+export class TodoItemModel {
+    
+    constructor(storage) {
+        this.storage = storage || new ItemStore();
+        this.loadedItems = [ ];
+    }
 
-function itemsSortedByName() {
-    return [...loadItems].sort(item1, item2 => item1.name - item2.name);
+    async loadData(){
+        this.loadedItems = await this.storage.loadItems();
+    }
+
+    itemsSortedByTitle() {
+        return this.loadedItems.sort((a, b) => (a.title > b.title ? 1 : -1));
+    }
+
+    itemsSortedByDueDate() {
+        return this.loadedItems.sort((a, b) => (a.dueDate > b.dueDate ? 1 : -1));
+    }
+
+    itemsSortedBCreationDate() {
+        return this.loadedItems.sort((a, b) => (a.creationDate > b.creationDate ? 1 : -1));
+
+    }
+
+    itemsSortedByImportance() {
+        return this.loadedItems.sort((a, b) => (a.importance > b.importance ? 1 : -1));
+    }
+
+    itemsCompleated() {
+        return this.loadedItems.filter(item => item.finished === true);
+    }
+
+    getItemById(id){
+        return this.loadedItems.find(item => item.id === id);
+    }
+
+    async updateItem(id, formData){
+        await this.storage.update(id, formData);
+        this.loadData();
+        console.log("bestehendes Item editiert");
+
+    }
+
+    async addNewItem(formData){
+                console.log(formData.get("title"));
+        await this.storage.add(formData);
+        this.loadData();
+        console.log("neues Item Hinzugefügt");
+    }
 }
-
-function itemsSortedByDueDate() {
-    return [...loadItems].sort(item1, item2 => item1.dueDate - item2.dueDate);
-}
-
-function itemsSortedBCreationDate() {
-    return [...loadItems].sort(item1, item2 => item1.creationDate - item2.creationDate);
-}
-
-function itemsSortedByImportance() {
-    return [...loadItems].sort(item1, item2 => item1.importance - item2.importance);
-}
-
-function itemsCompleated() {
-    return [...loadItems].filter(item => item.finished === true);
-}
-
-        // id: 1, title: 'aufräumen', descriptoon: 'Wohnung aufräumen', creationDate: '1.1.2000', dueDate: '1.1.2000', importance: 3, finished: false,
-
-// function compareSongs(s1, s2) {
-//   return s2.rating - s1.rating;
-// }
-export default {itemsSortedByName, songsSorted};

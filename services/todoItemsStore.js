@@ -1,71 +1,46 @@
 /* eslint-disable max-classes-per-file */
-import Datastore from 'nedb-promises';
-
-export class TodoItem {
-    constructor(name, descripton, dueDate, importance) {
-        this.name = name;
-        this.descripton = descripton;
-        this.creationDate = new Date();
-        this.dueDate = dueDate;
-        this.importance = importance;
-        this.finished = false;
-    }
-}
-
-// id: 1, name: 'aufräumen', descripton: 'Wohnung aufräumen',
-// creationDate: '1.1.2000', dueDate: '1.1.2000', importance: 3, finished: false,
-
+import {ItemStore} from '../data/itemStore.js';
 export class TodoItemsStore {
-    constructor(db) {
-        const options = process.env.DB_TYPE === "FILE" ? {filename: '../data/todoItems.db', autoload: true} : {}
-        this.db = db || new Datastore(options);
+    constructor() {
+        this.storage = new ItemStore();
+        this.loadedItems = [ ];
+        this.loadData();
     }
 
-    async add(name, descripton, dueDate, importance) {
-                console.log("in add");
-
-        const todoItem = new TodoItem(name, descripton, dueDate, importance);
-        return this.db.insert(todoItem);
+    loadData(){
+        this.loadedItems = this.storage.loadItems();
     }
 
-    async delete(id) {
-        await this.db.update({_id: id}, {$set: {"state": "DELETED"}});
-        return this.get(id);
+    add(title, description, dueDate, importance) {
+        this.storage.add(title, description, dueDate, importance, false);
+        this.loadData();
+        console.log("neues Item Hinzugefügt");
     }
 
-    async get(id) {
-                        console.log("in get");
+    update(title, description, creationDate, dueDate, importance, finished, id) {
 
-        return this.db.findOne({_id: id});
+        this.storage.update(title, description, dueDate, importance, finished, creationDate, id);
+        this.loadData();
+        console.log("bestehendes Item editiert");
+
     }
 
-    // async getAllItemsSortedByName() {
-    //     return this.db.find({finished : false}).sort(item1, item2 => item1.name - item2.name).exec();
-    // }
-
-    async getAllItemsSortedByCreationDate() {
-        console.log("in db file");
-        console.log(this.db);
-
-        return this.db.find({finished : false}).sort({ creationDate: -1 }).exec();
+    getAllItemsSortedByCreationDate() {
+        console.log("in getAllItemsSortedByCreationDate");
+        return this.loadedItems.sort((a, b) => (a.creationDate > b.creationDate ? 1 : -1));
     }
 
-    // async getAllItemsSortedByDueDate() {
-    //     return this.db.find({finished : false}).sort({ dueDate: -1 }).exec();
-    // }
-
-    // async getAllItemsSortedByImportance() {
-    //     return this.db.find({finished : false}).sort(item1, item2 => item1.importance - item2.importance).exec();
-    // }
-
-    // async getAllCompleadesItems() {
-    //     return this.db.find({finished : true}).sort(item1, item2 => item1.name - item2.name).exec();
-    // }
-
-
-    // async all(currentUser) {
-    //     return this.db.find({orderedBy : currentUser}).sort({ orderDate: -1 }).exec();
-    // }
+    getTodoItemFromFormData(title, description, creationDate, dueDate, importance, finished, id){
+        return {
+                    id: id || this.loadedItems.length + 1, 
+                    title: title, 
+                    description: description, 
+                    creationDate: creationDate, 
+                    dueDate: dueDate, 
+                    importance: importance, 
+                    finished: finished
+                };
+    }
 }
 
 export const todoItemsStore = new TodoItemsStore();

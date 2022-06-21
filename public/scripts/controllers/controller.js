@@ -1,116 +1,164 @@
-    // const container = document.getElementById("container");
-    // const songsListTemplateSource = document.getElementById("songs-list-template").innerHTML;
-    // const createSongsListHtmlString = Handlebars.compile(songsListTemplateSource);
-
-    // function bubbledClickEventHandler(event) {
-    //     const buttonSongId = event.target.dataset.songId;
-    //     if (buttonSongId) {
-    //         const buttonDelta = Number(event.target.dataset.delta);
-    //         rate(buttonSongId, buttonDelta);
-    //     }
-    // }
-
-    // function rate(id, delta) {
-    //     rateSong(id, delta);
-    //     renderSongs();
-    // }
-
-    // function renderSongs() {
-    //     container.innerHTML = createSongsListHtmlString(songsSorted());
-    // }
-
-    // function init() {
-    //     renderSongs();
-    //     container.addEventListener("click", bubbledClickEventHandler);
-    // }
-
-    // init();
-
-
-import {loadItems} from '../services/data/itemStore.js';
-
+import {TodoItemModel} from '../services/todoItemModel.js';
 export class Controller {
     constructor() {
+        this.todoItemModel = new TodoItemModel();
+
         this.todoItemsTemplateCompiled = Handlebars.compile(document.getElementById('todoItemsTemplate').innerHTML);
+        this.updateTodoTemplateCompiled = Handlebars.compile(document.getElementById('updateTodoTemplate').innerHTML);
 
         this.createItemButton = document.getElementById('createItemButton');
         this.backButton = document.getElementById('backButton');
         this.toogleStyleButton = document.getElementById('toogleStyleButton');
-        this.filterNameButton = document.getElementById('filterNameButton');
+        this.filterTitleButton = document.getElementById('filterTitleButton');
         this.filterDueDateButton = document.getElementById('filterDueDateButton');
         this.filterCreationDateButton = document.getElementById('filterCreationDateButton');
         this.filterImportanceButton = document.getElementById('filterImportanceButton');
         this.filterCompletedButton = document.getElementById('filterCompletedButton');
+
+        this.overviewButton = undefined; // will initialized after rendering
+        this.updateTodoContainer = document.getElementById('updateTodoContainer');
+
+        this.todoListNav = document.getElementById('todoListNav');
         this.todoListContainer = document.getElementById('todoListContainer');
-        this.addItemContainer = document.getElementById('addItemContainer');
-
     }
 
-    showAnimals() {
-        this.animalContainer.innerHTML = this.animalTemplateCompiled(
-            {animals: animalService.animals},
-            {allowProtoPropertiesByDefault: true});
+    showCreateButton() {
+        this.backButton.classList.add("disable-element");
+        this.createItemButton.classList.remove("disable-element");
     }
 
-    showFood() {
-        this.foodContainer.innerHTML = this.foodTemplateCompiled(
-            {food: foodService.food},
-            {allowProtoPropertiesByDefault: true});
+    showBackButton() {
+        this.createItemButton.classList.add("disable-element");
+        this.backButton.classList.remove("disable-element");
+    }
+
+    showTodoList(todoList = this.todoItemModel.itemsSortedByTitle()) {
+        this.showCreateButton();
+
+        this.updateTodoContainer.classList.add("disable-element");
+        this.todoListContainer.classList.remove("disable-element");
+
+        this.todoListNav.classList.remove("disable-element");
+
+        this.todoListContainer.innerHTML = this.todoItemsTemplateCompiled( 
+            todoList
+        );
+    }
+
+    showUpdateTodo(todoList = {id: undefined, title: undefined, description: undefined, creationDate: undefined, dueDate: undefined, importance: undefined, finished: false}) {
+        this.showBackButton();
+
+        this.todoListContainer.classList.add("disable-element");
+        this.todoListNav.classList.add("disable-element");
+
+        this.updateTodoContainer.classList.remove("disable-element");
+
+        this.updateTodoContainer.innerHTML = this.updateTodoTemplateCompiled(
+
+            { title: todoList.title ,
+             dueDate: todoList.dueDate ,
+             creationDate: todoList.creationDate ,
+             importance: todoList.importance ,
+             finished: todoList.finished ,
+             description: todoList.description ,
+             id: todoList.id }
+        );
     }
 
     initEventHandlers() {
+        this.createItemButton.addEventListener('click', (event) => {
+            this.showUpdateTodo();
+            console.log("createItemButton klicked");
+        });
 
-        this.foodContainer.addEventListener('click', (event) => {
-            const foodId = Number(event.target.dataset.foodId);
+        this.backButton.addEventListener('click', (event) => {
+            this.showTodoList();
+            console.log("backButton klicked");
+        });
 
-            if (!isNaN(foodId)) {
-                event.target.setAttribute('disabled', true);
+        this.toogleStyleButton.addEventListener('click', (event) => {
+            console.log("toogleStyleButton klicked");
+        });
 
-                foodService.orderFoodById(foodId);
-                this.showFood();
-                event.target.removeAttribute('disabled');
+        this.todoListContainer.addEventListener('click', (event) => {
+            const todoItemId = Number(event.target.dataset.todoItemId);
+            if(!isNaN(todoItemId)){
+                this.showUpdateTodo(this.todoItemModel.getItemById(todoItemId));
+                console.log("todoListContainer klicked");
             }
         });
 
-        this.animalContainer.addEventListener('click', (event) => {
-            const animalId = Number(event.target.dataset.animalId);
+        this.initSubNavEventHandlers();
+        this.initUpdateItemEventHandlers();
+    }
 
-            if (!isNaN(animalId)) {
-                const feedingSucceeded = animalService.animals[animalId].feed(
-                    {food: foodService.food, animals: animalService.animals},
-                    () => this.renderZooView());
-
-                if (feedingSucceeded) {
-                    this.renderZooView();
-                } else {
-                    event.target.value = 'Feed (No foood!)';
-                }
-            }
+    initSubNavEventHandlers() {
+        this.filterTitleButton.addEventListener('click', (event) => {
+            this.showTodoList(this.todoItemModel.itemsSortedByTitle());
+            console.log("filterTitleButton klicked");
         });
 
-        this.newAnimalForm.addEventListener('submit', (event) => {
-            const createAction = document.activeElement.dataset.action;
-            if (document.activeElement && animalService[createAction]) {
-                animalService[createAction](this.newAnimalName.value);
-                this.showAnimals();
-            }
-            event.preventDefault();
+        this.filterDueDateButton.addEventListener('click', (event) => {
+            this.showTodoList(this.todoItemModel.itemsSortedByDueDate());
+            console.log("filterDueDateButton klicked");
+        });
+
+        this.filterCreationDateButton.addEventListener('click', (event) => {
+            this.showTodoList(this.todoItemModel.itemsSortedBCreationDate());
+            console.log("filterCreationDateButton klicked");
+        });
+
+        this.filterImportanceButton.addEventListener('click', (event) => {
+            this.showTodoList(this.todoItemModel.itemsSortedByImportance());
+            console.log("filterImportanceButton klicked");
+        });
+
+        this.filterCompletedButton.addEventListener('click', (event) => {
+            this.showTodoList(this.todoItemModel.itemsCompleated());
+            console.log("filterCompletedButton klicked");
         });
     }
 
-    renderZooView() {
-        this.showAnimals();
-        this.showFood();
+    initUpdateItemEventHandlers() {
+            this.overviewButton = document.getElementById('overviewButton');
+            this.overviewButton.addEventListener('click', (event) => {
+                this.showTodoList();
+                console.log("overviewButton klicked");
+            });
+
+            this.updateTodoContainer.addEventListener('submit', async (event) => {
+
+                const buttonType = event.submitter.dataset.buttonType;
+                const todoItemId = Number(event.submitter.dataset.todoItemId);
+
+                let formData = new FormData(document.getElementById('updateTodoForm'));
+
+                if(isNaN(todoItemId) || todoItemId === 0){
+                    this.todoItemModel.addNewItem(formData);
+                } else{
+                    this.todoItemModel.updateItem(todoItemId, formData);
+                }
+
+                if(buttonType == "updateOverview"){
+                    this.showTodoList();
+                }
+                console.log("updateTodoContainer klicked");
+                event.preventDefault();
+            });
+
+    }
+
+    renderTodoView() {
+        this.showUpdateTodo();
+        this.showTodoList();
     }
 
     initialize() {
+        this.todoItemModel.loadData();
+        this.renderTodoView();
         this.initEventHandlers();
-        foodService.loadData();
-        this.renderZooView();
     }
 }
 
 // create one-and-only instance
-new ZooController().initialize();
-
-
+new Controller().initialize();

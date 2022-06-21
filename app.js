@@ -1,42 +1,42 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import path, {dirname} from 'path';
-import jwt from 'express-jwt';
+import { todoItemsRoutes } from './routes/todoItemsRoutes.js';
 
-import {todoItemsRoutes} from './routes/todoItemsRoutes.js';
-// import {orderRoutes} from './routes/order-routes.js';
 import {fileURLToPath} from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export const app = express();
 
-// app.use(express.static(path.resolve('public/html')));
-// app.use(express.static(path.resolve('public')));
-
-// app.use(bodyParser.json());
-// const jwtSecret = 'aklsdjfklöasjdcma8sd90mcklasdföasdf$ädasöfü pi340qkrlöam,dflöäasf';
-
-// app.set("jwt-secret", jwtSecret); //secret should be in a config file - or better be a private key!
-// app.set("jwt-sign", {expiresIn: "1d", audience: "self", issuer: "pizza"});
-// app.set("jwt-validate", {secret: jwtSecret, audience: "self", issuer: "pizza"});
+app.use(bodyParser.json());
 
 app.get("/", function (req, res) {
     res.sendFile("/html/index.html", {root: __dirname + '/public/'});
 });
 
-// app.use(jwt(app.get("jwt-validate")).unless({path: [/\/login*/]})); //after this middleware a token is required!
-// app.use((req, res, next) => {
-//     console.log(req.user || "no user");
-//     next();
-// });
-app.use("/todoItems", todoItemsRoutes);
-// app.use("/orders", orderRoutes);
+app.get("/scripts/controllers/controller.js", function (req, res) {
+    res.sendFile("/scripts/controllers/controller.js", {root: __dirname + '/public/'});
+});
 
-// app.use(function (err, req, res, next) {
-//     if (err.name === 'UnauthorizedError') {
-//         res.status(401).send('No token / Invalid token provided');
-//     } else {
-//         next(err);
-//     }
-// });
+app.get("/styles/index.css", function (req, res) {
+    res.sendFile("/styles/index.css", {root: __dirname + '/public/'});
+});
+
+app.get("/scripts/services/todoItemModel.js", function (req, res) {
+    res.sendFile("/scripts/services/todoItemModel.js", {root: __dirname + '/public/'});
+});
+
+app.get("/scripts/services/http-service.js", function (req, res) {
+    res.sendFile("/scripts/services/http-service.js", {root: __dirname + '/public/'});
+});
+
+app.get("/scripts/services/data/itemRemoteStore.js", function (req, res) {
+    res.sendFile("/scripts/services/data/itemRemoteStore.js", {root: __dirname + '/public/'});
+});
+
+
+app.use(express.static(path.resolve('public/html')));
+app.use(express.static(path.resolve('public')));
+
+app.use("/todoItems", todoItemsRoutes);

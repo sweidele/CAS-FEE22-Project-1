@@ -1,9 +1,117 @@
-* {
+/* * {
     box-sizing: border-box;
+} */
+button {
+  background: rgb(37, 77, 207);
+  color: rgb(255, 255, 255);
+  border-radius: 5px;
+  padding: .5rem;
 }
 
 
-h1 {
+.main-nav-container {
+  display: flex;
+  flex-direction: row;
+  list-style-type: none;
+}
+
+.main-nav-item {
+  margin: 0 .2rem;
+}
+
+.main-nav-item:last-of-type {
+      margin-left: auto;
+}
+  #createItemButton {
+  }
+
+  #backButton {    
+  }
+
+  #toogleStyleButton {
+    
+  }
+
+  .sub-nav-container {
+    display: flex;
+    align-direction: row;
+    list-style-type: none;
+  }
+
+  .sub-nav-item {
+    margin: 0 .2rem;
+  }
+
+  .sub-nav-item:last-of-type {
+    margin-left: auto;
+  }
+
+
+    .todo-item {
+      display: grid;
+      grid-template-columns: 1fr 60% 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      grid-template-areas:
+        "duedate title importante edit"
+        "status description description edit";
+    }
+    
+    .todo-item-duedate {
+      grid-area: duedate;
+    }
+    
+    .todo-item-title {
+      grid-area: title;
+    }
+    
+    .todo-item-importante {
+      grid-area: importante;
+    }
+    
+    .todo-item-status {
+      grid-area: status;
+    }
+    
+    .todo-item-description {
+      grid-area: description;
+    }
+
+    .todo-item-edit {
+      grid-area: edit;
+      /* text-align: center;
+      vertical-align: middle;
+      text-justify: center; */
+      margin: 50%;
+    }
+
+
+.update-todo-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.container-item-row {
+  margin: 0 .2rem;
+}
+
+.container-item-column {
+  margin: .2rem 0;
+}
+
+.update-todo-buttons-container {
+  display: flex;
+  flex-direction: row;
+}
+
+
+.disable-element {
+  display:none;
+}
+
+
+
+
+/* h1 {
     font-size: 20px;
   }
   
@@ -46,5 +154,5 @@ h1 {
   .inner-special-div {
     height: 40%;
     width: 40%;
-  }
+  } */
   
