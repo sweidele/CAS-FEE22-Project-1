@@ -63,6 +63,7 @@ export class Controller {
              description: todoList.description ,
              id: todoList.id }
         );
+        this.initOverviewButtonEventHandler();
     }
 
     initEventHandlers() {
@@ -120,32 +121,33 @@ export class Controller {
     }
 
     initUpdateItemEventHandlers() {
-            this.overviewButton = document.getElementById('overviewButton');
-            this.overviewButton.addEventListener('click', (event) => {
+        this.updateTodoContainer.addEventListener('submit', async (event) => {
+
+            const buttonType = event.submitter.dataset.buttonType;
+            const todoItemId = Number(event.submitter.dataset.todoItemId);
+
+            let formData = new FormData(document.getElementById('updateTodoForm'));
+
+            if(isNaN(todoItemId) || todoItemId === 0){
+                this.todoItemModel.addNewItem(formData);
+            } else{
+                this.todoItemModel.updateItem(todoItemId, formData);
+            }
+
+            if(buttonType == "updateOverview"){
                 this.showTodoList();
-                console.log("overviewButton klicked");
-            });
+            }
+            console.log("updateTodoContainer klicked");
+            event.preventDefault();
+        });
+    }
 
-            this.updateTodoContainer.addEventListener('submit', async (event) => {
-
-                const buttonType = event.submitter.dataset.buttonType;
-                const todoItemId = Number(event.submitter.dataset.todoItemId);
-
-                let formData = new FormData(document.getElementById('updateTodoForm'));
-
-                if(isNaN(todoItemId) || todoItemId === 0){
-                    this.todoItemModel.addNewItem(formData);
-                } else{
-                    this.todoItemModel.updateItem(todoItemId, formData);
-                }
-
-                if(buttonType == "updateOverview"){
-                    this.showTodoList();
-                }
-                console.log("updateTodoContainer klicked");
-                event.preventDefault();
-            });
-
+    initOverviewButtonEventHandler(){
+        this.overviewButton = document.getElementById('overviewButton');
+        this.overviewButton.addEventListener('click', (event) => {
+            this.showTodoList();
+            console.log("overviewButton klicked");
+        });
     }
 
     renderTodoView() {
