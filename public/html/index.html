@@ -16,16 +16,24 @@
     <script id="todoItemsTemplate" type="text/x-handlebars-template">
       <ul>
         {{#each this}}
-        <li class="todo-item">
-          <p class="todo-item-duedate">{{formatDate dueDate}}</p>
-          <p class="todo-item-title">{{title}}</p>
-          <p class="todo-item-importance">{{importance}}</p>
-          <p class="todo-itemfinished">{{finished}}</p>
-          <p class="todo-item-description">{{description}}</p>
+        <li class="todo-item-grid">
+          <p class="todo-item-duedate todo-item">{{formatDate dueDate}}</p>
+          <p class="todo-item-title todo-item">{{title}}</p>
+          <p class="todo-item-importance todo-item">{{importance}}</p>
+          <label class="todo-item-finished todo-item">
+            <input type="checkbox" onclick="return false;" {{#if finished}} checked {{/if}}/>
+              {{#if finished}} 
+                <span class="item-row">Completed</span> 
+              {{else}}
+                <span class="item-row">Open</span> 
+              {{/if}}
+          </label>
+          <p class="todo-item-description todo-item">{{description}}</p>
 
-          <div class="todo-item-edit">
+          <div class="todo-item-edit todo-item">
             <button data-todo-item-id="{{id}}">Edit</button>
           </div>
+          <hr class="todo-item-line todo-item"/>
         </li>
         {{/each}}
       </ul>
@@ -33,30 +41,30 @@
 
     <script id="updateTodoTemplate" type="text/x-handlebars-template">
       <form id="updateTodoForm" class="update-todo-container">
-        <label class="update-todo-container">
-          <span class="container-item-column">Titel</span>
-          <input id="title" name="title" class="container-item-column" value="{{title}}">
+        <label class="form-item-column">
+          <span class="form-item-row">Titel</span>
+          <input id="title" name="title" class="form-item-row" value="{{title}}">
         </label>
-        <label class="update-todo-container">
-          <span class="container-item-column">Importance</span>
-          <input id="importance" name="importance" type="number" class="container-item-column" value="{{importance}}">
+        <label class="form-item-column">
+          <span class="form-item-row">Importance</span>
+          <input id="importance" name="importance" type="number" class="form-item-row" value="{{importance}}">
         </label>
-        <label class="update-todo-container">
-          <span class="container-item-column">Due Date</span>
-          <input id="dueDate" name="dueDate" type="date" class="container-item-column" value="{{dueDate}}">
+        <label class="form-item-column">
+          <span class="form-item-row">Due Date</span>
+          <input id="dueDate" name="dueDate" type="date" class="form-item-row" value="{{dueDate}}">
         </label>
-        <label class="container-item-column">
-          <input id="finished" name="finished" type="checkbox" class="container-item-row" {{#if finished}} checked {{/if}}>
-          <span class="container-item-row">Finished</span>
+        <label class="item-column">
+          <input id="finished" name="finished" type="checkbox" class="item-row" {{#if finished}} checked {{/if}}>
+          <span class="item-row">Finished</span>
         </label>
-        <label class="update-todo-container">
-          <span class="container-item-column">Description</span>
-          <input id="description" name="description" class="container-item-row" value="{{description}}">
+        <label class="form-item-column">
+          <span class="form-item-row">Description</span>
+          <textarea name="description" id="description" class="form-item-row" cols="30" rows="5">{{description}}</textarea>
         </label>
-        <div class="update-todo-buttons-container container-item-column">
-          <button class="container-item-row" data-todo-item-id="{{id}}" data-button-type="update" type="submit">Update</button>
-          <button id="updateOverviewButton" class="container-item-row" data-todo-item-id="{{id}}" data-button-type="updateOverview" type="submit">Update & Overview</button>
-          <button id="overviewButton" class="container-item-row" data-todo-item-id="{{id}}" type="button">Overview</button>
+        <div class="update-todo-buttons-container item-column">
+          <button class="item-row" data-todo-item-id="{{id}}" data-button-type="update" type="submit">Update</button>
+          <button id="updateOverviewButton" class="item-row" data-todo-item-id="{{id}}" data-button-type="updateOverview" type="submit">Update & Overview</button>
+          <button id="overviewButton" class="item-row" data-todo-item-id="{{id}}" type="button">Overview</button>
         </div>
         <input id="creationDate" name="creationDate" type="hidden" type="date" value="{{creationDate}}">
       </form>
@@ -67,10 +75,10 @@
   <body>
     <header>
       <nav>
-        <ul class="main-nav-container">
-          <li class="main-nav-item"><button id="createItemButton">Create</button></li>
-          <li class="main-nav-item"><button id="backButton">Back</button></li>
-          <li class="main-nav-item"><button id="toogleStyleButton">Toogle Style</button></li>
+        <ul class="main-nav-container item-column">
+          <li class="main-nav-item"><button id="createItemButton" class="item-row">Create</button></li>
+          <li class="main-nav-item"><button id="backButton" class="item-row">Back</button></li>
+          <li class="main-nav-item"><button id="toogleStyleButton" class="item-row">Toogle Style</button></li>
         </ul>
       </nav>
     </header>
@@ -79,61 +87,19 @@
 
 <!-- <div id="todoContainer"></div> -->
     <nav id="todoListNav">
-        <ul class="sub-nav-container">
-          <li class="sub-nav-item"><button id="filterTitleButton">Name</button></li>
-          <li class="sub-nav-item"><button id="filterDueDateButton">By Due Date</button></li>
-          <li class="sub-nav-item"><button id="filterCreationDateButton">By Creation Date</button></li>
-          <li class="sub-nav-item"><button id="filterImportanceButton">By Importance</button></li>
-          <li class="sub-nav-item"><button id="filterCompletedButton">Filter Completed</button></li>
+        <ul class="sub-nav-container item-column">
+          <li class="sub-nav-item"><button class="item-row" id="filterTitleButton">Name</button></li>
+          <li class="sub-nav-item"><button class="item-row" id="filterDueDateButton">By Due Date</button></li>
+          <li class="sub-nav-item"><button class="item-row" id="filterCreationDateButton">By Creation Date</button></li>
+          <li class="sub-nav-item"><button class="item-row" id="filterImportanceButton">By Importance</button></li>
+          <li class="sub-nav-item"><button class="item-row" id="filterCompletedButton">Filter Completed</button></li>
         </ul>
       </nav>
     <div id="todoListContainer">
-          <!-- <ul>
 
-            <li class="todo-item">
-              <p class="todo-item-duedate">{{dueDate}}</p>
-              <p class="todo-item-title">{{title}}</p>
-              <p class="todo-item-importance">{{importance}}</p>
-              <p class="todo-itemfinished-finished">{{finished}}</p>
-              <p class="todo-item-description">sjndskdjfnksjdnfkjsdnfjknsdkjfnskdnfkdn skjdnf kjsnd ks nffjns dkfjsdkj sdkj nkjsd nfjf k sjdf</p>
-              <div class="todo-item-edit">
-                <button data-delta="1" data-todo-item-id="{{id}}">Edit</button>
-              </div>
-
-            </li>
-
-        </ul> -->
 
     </div>
 <div id="updateTodoContainer"></div>
-    <!-- <form class="update-todo-container" action="addItemAction">
-      <label class="update-todo-container">
-        <span class="container-item-column">Titel</span>
-        <input id="title" name="title" class="container-item-column">
-      </label>
-      <label class="update-todo-container">
-        <span class="container-item-column">Importance</span>
-        <input id="importance" name="importance" type="number" class="container-item-column">
-      </label>
-      <label class="update-todo-container">
-        <span class="container-item-column">Due Date</span>
-        <input id="dueDate" name="dueDate" type="date" class="container-item-column">
-      </label>
-      <label class="container-item-column">
-        <input id="finished" name="finished" type="checkbox" class="container-item-row">
-        <span class="container-item-row">Finished</span>
-      </label>
-      <label class="update-todo-container">
-        <span class="container-item-column">Description</span>
-        <input id="Description" name="Description" class="container-item-row">
-      </label>
-      <div class="update-todo-buttons-container container-item-column">
-        <button class="container-item-row">Update</button>
-        <button class="container-item-row">Update & Overview</button>
-        <button class="container-item-row">Overview</button>
-      </div>
-    </form> -->
- <!-- </div> -->
 
     </main>
 

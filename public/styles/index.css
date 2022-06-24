@@ -1,6 +1,26 @@
 /* * {
     box-sizing: border-box;
 } */
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  padding-left: 2rem;
+  padding-right: 2rem;
+  margin: 1rem;
+
+}
+
+p {
+      display: block;
+}
+
+.funny-skin {
+    background: rgb(201, 17, 127);
+}
+
+
 button {
   background: rgb(37, 77, 207);
   color: rgb(255, 255, 255);
@@ -8,6 +28,20 @@ button {
   padding: .5rem;
 }
 
+input[type='checkbox']:checked{
+  accent-color: rgb(37, 77, 207);
+}
+
+input:disabled {
+  cursor: default;
+  background-color: -internal-light-dark(rgba(239, 239, 239, 0.3), rgba(59, 59, 59, 0.3));
+  color: -internal-light-dark(rgb(84, 84, 84), rgb(170, 170, 170));
+  border-color: rgba(118, 118, 118, 0.3);
+}
+
+/* input[type='checkbox'] {
+  accent-color: red;
+} */
 
 .main-nav-container {
   display: flex;
@@ -16,7 +50,6 @@ button {
 }
 
 .main-nav-item {
-  margin: 0 .2rem;
 }
 
 .main-nav-item:last-of-type {
@@ -39,7 +72,6 @@ button {
   }
 
   .sub-nav-item {
-    margin: 0 .2rem;
   }
 
   .sub-nav-item:last-of-type {
@@ -47,14 +79,20 @@ button {
   }
 
 
-    .todo-item {
+    .todo-item-grid {
       display: grid;
+      margin: .6rem 0;
       grid-template-columns: 1fr 60% 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
+      grid-template-rows: 1fr 1fr 2px;
       grid-template-areas:
         "duedate title importante edit"
-        "status description description edit";
+        "finished description description edit"
+        "line line line line";
     }
+
+        .todo-item {
+            margin: .6rem .3rem ;
+        }
     
     .todo-item-duedate {
       grid-area: duedate;
@@ -68,8 +106,9 @@ button {
       grid-area: importante;
     }
     
-    .todo-item-status {
-      grid-area: status;
+    .todo-item-finished {
+      grid-area: finished;
+      opacity: 0.5;
     }
     
     .todo-item-description {
@@ -78,24 +117,54 @@ button {
 
     .todo-item-edit {
       grid-area: edit;
+      justify-self: end;
+      align-self: center;
       /* text-align: center;
       vertical-align: middle;
       text-justify: center; */
-      margin: 50%;
+      /* margin: 50%; */
     }
 
+    .todo-item-line {
+      grid-area: line;
+    }
 
 .update-todo-container {
   display: flex;
   flex-direction: column;
 }
 
-.container-item-row {
-  margin: 0 .2rem;
+
+/* ul {
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+} */
+
+.item-row {
+  margin: 0 .3rem;
 }
 
-.container-item-column {
-  margin: .2rem 0;
+.item-column {
+  margin: .3rem 0;
+}
+
+.item-column .item-row {
+  margin: .3rem;
+}
+
+.form-item-column {
+  margin: .3rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-item-row {
+  margin: .3rem;
 }
 
 .update-todo-buttons-container {
@@ -107,8 +176,6 @@ button {
 .disable-element {
   display:none;
 }
-
-
 
 
 /* h1 {
