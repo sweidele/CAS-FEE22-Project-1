@@ -9,6 +9,8 @@
       crossorigin="anonymous"
       defer
     ></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
     <script src="../scripts/utils/handlebarsHelpers.js" defer></script>
 
     <script src="../scripts/controllers/controller.js" type="module" defer></script>
@@ -19,7 +21,11 @@
         <li class="todo-item-grid">
           <p class="todo-item-duedate todo-item">{{formatDate dueDate}}</p>
           <p class="todo-item-title todo-item">{{title}}</p>
-          <p class="todo-item-importance todo-item">{{importance}}</p>
+          <div class="todo-item-importance todo-item">
+            {{#loop importance}}
+              <span class="material-symbols-outlined">electric_bolt</span>
+            {{/loop}}
+          </div>
           <label class="todo-item-finished todo-item">
             <input type="checkbox" onclick="return false;" {{#if finished}} checked {{/if}}/>
               {{#if finished}} 

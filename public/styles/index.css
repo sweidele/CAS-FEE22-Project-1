@@ -82,10 +82,10 @@ input:disabled {
     .todo-item-grid {
       display: grid;
       margin: .6rem 0;
-      grid-template-columns: 1fr 60% 1fr 1fr;
+      grid-template-columns: 1fr 60% 1fr 5%;
       grid-template-rows: 1fr 1fr 2px;
       grid-template-areas:
-        "duedate title importante edit"
+        "duedate title importance edit"
         "finished description description edit"
         "line line line line";
     }
@@ -102,8 +102,9 @@ input:disabled {
       grid-area: title;
     }
     
-    .todo-item-importante {
-      grid-area: importante;
+    .todo-item-importance {
+      grid-area: importance;
+      justify-self: end;
     }
     
     .todo-item-finished {
@@ -175,6 +176,14 @@ input:disabled {
 
 .disable-element {
   display:none;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
 }
 
 
