@@ -163,6 +163,7 @@ export class Controller {
         this.todoItemModel.loadData();
         this.renderTodoView();
         this.initEventHandlers();
+        setTimeout(() => this.showTodoList(), 500);
     }
 }
 
