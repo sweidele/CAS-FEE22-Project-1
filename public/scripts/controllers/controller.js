@@ -20,6 +20,8 @@ export class Controller {
 
         this.todoListNav = document.getElementById('todoListNav');
         this.todoListContainer = document.getElementById('todoListContainer');
+
+        this.body = document.querySelector("body");
     }
 
     showCreateButton() {
@@ -78,6 +80,8 @@ export class Controller {
         });
 
         this.toogleStyleButton.addEventListener('click', (event) => {
+
+             this.body.classList.toggle("funny-skin");
             console.log("toogleStyleButton klicked");
         });
 
