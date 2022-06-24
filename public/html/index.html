@@ -59,7 +59,7 @@
         </label>
         <label class="form-item-column">
           <span class="form-item-row">Description</span>
-          <textarea name="description" id="description" class="form-item-row" cols="30" rows="5">{{description}}</textarea>
+          <textarea name="description" id="description" class="form-item-row" rows="5">{{description}}</textarea>
         </label>
         <div class="update-todo-buttons-container item-column">
           <button class="item-row" data-todo-item-id="{{id}}" data-button-type="update" type="submit">Update</button>
@@ -85,8 +85,7 @@
 
     <main>
 
-<!-- <div id="todoContainer"></div> -->
-    <nav id="todoListNav">
+      <nav id="todoListNav">
         <ul class="sub-nav-container item-column">
           <li class="sub-nav-item"><button class="item-row" id="filterTitleButton">Name</button></li>
           <li class="sub-nav-item"><button class="item-row" id="filterDueDateButton">By Due Date</button></li>
