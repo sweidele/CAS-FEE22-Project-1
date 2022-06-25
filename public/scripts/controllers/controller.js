@@ -122,7 +122,7 @@ export class Controller {
     });
 
     this.filterCreationDateButton.addEventListener("click", (event) => {
-      this.showTodoList(this.todoItemModel.itemsSortedBCreationDate());
+      this.showTodoList(this.todoItemModel.itemsSortedByCreationDate());
     });
 
     this.filterImportanceButton.addEventListener("click", (event) => {
