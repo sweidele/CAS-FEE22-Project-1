@@ -15,31 +15,6 @@ app.get("/", function (req, res) {
     res.sendFile("/html/index.html", {root: __dirname + '/public/'});
 });
 
-app.get("/scripts/controllers/controller.js", function (req, res) {
-    res.sendFile("/scripts/controllers/controller.js", {root: __dirname + '/public/'});
-});
-
-app.get("/styles/index.css", function (req, res) {
-    res.sendFile("/styles/index.css", {root: __dirname + '/public/'});
-});
-
-app.get("/scripts/services/todoItemModel.js", function (req, res) {
-    res.sendFile("/scripts/services/todoItemModel.js", {root: __dirname + '/public/'});
-});
-
-app.get("/scripts/services/http-service.js", function (req, res) {
-    res.sendFile("/scripts/services/http-service.js", {root: __dirname + '/public/'});
-});
-
-app.get("/scripts/services/data/itemRemoteStore.js", function (req, res) {
-    res.sendFile("/scripts/services/data/itemRemoteStore.js", {root: __dirname + '/public/'});
-});
-
-app.get("/scripts/utils/handlebarsHelpers.js", function (req, res) {
-    res.sendFile("/scripts/utils/handlebarsHelpers.js", {root: __dirname + '/public/'});
-});
-
-app.use(express.static(path.resolve('public/html')));
 app.use(express.static(path.resolve('public')));
 
 app.use("/todoItems", todoItemsRoutes);
