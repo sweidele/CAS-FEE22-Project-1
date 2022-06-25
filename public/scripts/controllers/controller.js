@@ -3,15 +3,13 @@ export class Controller {
   constructor() {
     this.todoItemModel = new TodoItemModel();
 
+    this.body = document.querySelector("body");
+
+    //todo item view
     this.todoItemsTemplateCompiled = Handlebars.compile(
       document.getElementById("todoItemsTemplate").innerHTML
     );
-    this.updateTodoTemplateCompiled = Handlebars.compile(
-      document.getElementById("updateTodoTemplate").innerHTML
-    );
-
     this.createItemButton = document.getElementById("createItemButton");
-    this.backButton = document.getElementById("backButton");
     this.toogleStyleButton = document.getElementById("toogleStyleButton");
     this.filterTitleButton = document.getElementById("filterTitleButton");
     this.filterDueDateButton = document.getElementById("filterDueDateButton");
@@ -25,32 +23,37 @@ export class Controller {
       "filterCompletedButton"
     );
 
+    // update item view
+    this.updateTodoTemplateCompiled = Handlebars.compile(
+      document.getElementById("updateTodoTemplate").innerHTML
+    );
+    this.backButton = document.getElementById("backButton");
     this.overviewButton = undefined; // will initialized after rendering
     this.updateTodoContainer = document.getElementById("updateTodoContainer");
-
     this.todoListNav = document.getElementById("todoListNav");
     this.todoListContainer = document.getElementById("todoListContainer");
-
-    this.body = document.querySelector("body");
   }
 
-  showCreateButton() {
-    this.backButton.classList.add("disable-element");
+  showTodoListView() {
     this.createItemButton.classList.remove("disable-element");
+    this.todoListContainer.classList.remove("disable-element");
+    this.todoListNav.classList.remove("disable-element");
+
+    this.backButton.classList.add("disable-element");
+    this.updateTodoContainer.classList.add("disable-element");
   }
 
-  showBackButton() {
-    this.createItemButton.classList.add("disable-element");
+  showUpdateTodoView() {
     this.backButton.classList.remove("disable-element");
+    this.updateTodoContainer.classList.remove("disable-element");
+
+    this.createItemButton.classList.add("disable-element");
+    this.todoListContainer.classList.add("disable-element");
+    this.todoListNav.classList.add("disable-element");
   }
 
   showTodoList(todoList = this.todoItemModel.itemsSortedByTitle()) {
-    this.showCreateButton();
-
-    this.updateTodoContainer.classList.add("disable-element");
-    this.todoListContainer.classList.remove("disable-element");
-
-    this.todoListNav.classList.remove("disable-element");
+    this.showTodoListView();
 
     this.todoListContainer.innerHTML = this.todoItemsTemplateCompiled(todoList);
   }
@@ -60,18 +63,13 @@ export class Controller {
       id: undefined,
       title: undefined,
       description: undefined,
-      creationDate: undefined,
+      creationDate: new Date(),
       dueDate: undefined,
-      importance: undefined,
+      importance: 1,
       finished: false,
     }
   ) {
-    this.showBackButton();
-
-    this.todoListContainer.classList.add("disable-element");
-    this.todoListNav.classList.add("disable-element");
-
-    this.updateTodoContainer.classList.remove("disable-element");
+    this.showUpdateTodoView();
 
     this.updateTodoContainer.innerHTML = this.updateTodoTemplateCompiled({
       title: todoList.title,
@@ -82,10 +80,26 @@ export class Controller {
       description: todoList.description,
       id: todoList.id,
     });
+
     this.initOverviewButtonEventHandler();
   }
 
+  initOverviewButtonEventHandler() {
+    this.overviewButton = document.getElementById("overviewButton");
+    this.overviewButton.addEventListener("click", (event) => {
+      this.showTodoList();
+      console.log("overviewButton klicked");
+    });
+  }
+
   initEventHandlers() {
+    this.initMainNavEventHandlers();
+    this.initSubNavEventHandlers();
+    this.initEditButtonEventHandler();
+    this.initUpdateItemEventHandlers();
+  }
+
+  initMainNavEventHandlers() {
     this.createItemButton.addEventListener("click", (event) => {
       this.showUpdateTodo();
       console.log("createItemButton klicked");
@@ -100,17 +114,6 @@ export class Controller {
       this.body.classList.toggle("funny-skin");
       console.log("toogleStyleButton klicked");
     });
-
-    this.todoListContainer.addEventListener("click", (event) => {
-      const todoItemId = Number(event.target.dataset.todoItemId);
-      if (!isNaN(todoItemId)) {
-        this.showUpdateTodo(this.todoItemModel.getItemById(todoItemId));
-        console.log("todoListContainer klicked");
-      }
-    });
-
-    this.initSubNavEventHandlers();
-    this.initUpdateItemEventHandlers();
   }
 
   initSubNavEventHandlers() {
@@ -140,6 +143,16 @@ export class Controller {
     });
   }
 
+  initEditButtonEventHandler() {
+    this.todoListContainer.addEventListener("click", (event) => {
+      const todoItemId = Number(event.target.dataset.todoItemId);
+      if (!isNaN(todoItemId)) {
+        this.showUpdateTodo(this.todoItemModel.getItemById(todoItemId));
+        console.log("todoListContainer klicked");
+      }
+    });
+  }
+
   async initUpdateItemEventHandlers() {
     this.updateTodoContainer.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -165,22 +178,14 @@ export class Controller {
     });
   }
 
-  initOverviewButtonEventHandler() {
-    this.overviewButton = document.getElementById("overviewButton");
-    this.overviewButton.addEventListener("click", (event) => {
-      this.showTodoList();
-      console.log("overviewButton klicked");
-    });
-  }
-
-  renderTodoView() {
+  renderInitialTodoView() {
     this.showUpdateTodo();
     this.showTodoList();
   }
 
   initialize() {
     this.todoItemModel.loadData();
-    this.renderTodoView();
+    this.renderInitialTodoView();
     this.initEventHandlers();
     setTimeout(() => this.showTodoList(), 500);
   }
