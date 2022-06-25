@@ -1,46 +1,30 @@
-/* eslint-disable max-classes-per-file */
-import {ItemStore} from '../data/itemStore.js';
+import { ItemStore } from "../data/itemStore.js";
 export class TodoItemsStore {
-    constructor() {
-        this.storage = new ItemStore();
-        this.loadedItems = [ ];
-        this.loadData();
-    }
+  constructor() {
+    this.storage = new ItemStore();
+    this.loadedItems = [];
+    this.loadData();
+  }
 
-    loadData(){
-        this.loadedItems = this.storage.loadItems();
-    }
+  loadData() {
+    this.loadedItems = this.storage.loadItems();
+  }
 
-    async add(title, description, dueDate, importance) {
-        this.storage.add(title, description, dueDate, importance, false);
-        await this.loadData();
-        console.log("neues Item Hinzugefügt");
-    }
+  async add(req) {
+    this.storage.add(req);
+    await this.loadData();
+  }
 
-    async update(title, description, creationDate, dueDate, importance, finished, id) {
+  async update(req) {
+    this.storage.update(req);
+    await this.loadData();
+  }
 
-        this.storage.update(title, description, dueDate, importance, finished, creationDate, id);
-        await this.loadData();
-        console.log("bestehendes Item editiert");
-
-    }
-
-    getAllItemsSortedByCreationDate() {
-        console.log("in getAllItemsSortedByCreationDate");
-        return this.loadedItems.sort((a, b) => (a.creationDate > b.creationDate ? 1 : -1));
-    }
-
-    getTodoItemFromFormData(title, description, creationDate, dueDate, importance, finished, id){
-        return {
-                    id: id || this.loadedItems.length + 1, 
-                    title: title, 
-                    description: description, 
-                    creationDate: creationDate, 
-                    dueDate: dueDate, 
-                    importance: importance, 
-                    finished: finished
-                };
-    }
+  getAllItemsSortedByCreationDate() {
+    return this.loadedItems.sort((a, b) =>
+      a.creationDate > b.creationDate ? 1 : -1
+    );
+  }
 }
 
 export const todoItemsStore = new TodoItemsStore();

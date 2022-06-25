@@ -44,53 +44,27 @@ export class ItemStore {
     return this.todoItems;
   }
 
-  update(title, description, dueDate, importance, finished, creationDate, id) {
+  update(req) {
     this.todoItems = this.todoItems.map((item) =>
-      item.id !== id
+      item.id !== Number(req.params.id)
         ? item
-        : this.getTodoItemFromFormData(
-            title,
-            description,
-            dueDate,
-            importance,
-            finished,
-            creationDate,
-            id
-          )
+        : this.getTodoItemFromFormData(req)
     );
   }
 
-  add(title, description, dueDate, importance, finished) {
-    this.todoItems.push(
-      this.getTodoItemFromFormData(
-        title,
-        description,
-        dueDate,
-        importance,
-        finished,
-        new Date(),
-        this.todoItems.length + 1
-      )
-    );
+  add(req) {
+    this.todoItems.push(this.getTodoItemFromFormData(req));
   }
 
-  getTodoItemFromFormData(
-    title,
-    description,
-    dueDate,
-    importance,
-    finished,
-    creationDate,
-    id
-  ) {
+  getTodoItemFromFormData(req) {
     return {
-      id: id || undefined,
-      title: title || undefined,
-      description: description || undefined,
-      creationDate: creationDate || undefined,
-      dueDate: dueDate || undefined,
-      importance: importance || undefined,
-      finished: finished || false,
+      id: Number(req.params.id) || this.todoItems.length + 1,
+      title: req.body.title || undefined,
+      description: req.body.description || undefined,
+      creationDate: req.body.creationDate || new Date(),
+      dueDate: req.body.dueDate || undefined,
+      importance: req.body.importance || undefined,
+      finished: req.body.finished || false,
     };
   }
 }
