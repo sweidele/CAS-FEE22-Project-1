@@ -6,8 +6,8 @@
 
 body {
   --default-font-family: "Roboto", sans-serif;
-  --default-color: rgb(37, 77, 207);
-  --default-clicked-color: rgb(17, 47, 146);
+  --default-color: rgb(37 77 207);
+  --default-clicked-color: rgb(17 47 146);
 
   font-family: var(--default-font-family);
   padding-left: 2rem;
@@ -17,15 +17,15 @@ body {
 
 .funny-skin {
   --default-font-family: "Fascinate", cursive;
-  --default-color: rgb(201, 17, 127);
-  --default-clicked-color: rgb(139, 14, 89);
+  --default-color: rgb(201 17 127);
+  --default-clicked-color: rgb(139 14 89);
 
-  background: rgb(125, 195, 239);
+  background: rgb(125 195 239);
 }
 
 button {
   background: var(--default-color);
-  color: rgb(255, 255, 255);
+  color: rgb(255 255 255);
   border-radius: 5px;
   padding: 0.5rem;
 }
@@ -47,12 +47,13 @@ input[type="checkbox"]:checked {
 
 input:disabled {
   cursor: default;
-  background-color: -internal-light-dark(
-    rgba(239, 239, 239, 0.3),
-    rgba(59, 59, 59, 0.3)
-  );
-  color: -internal-light-dark(rgb(84, 84, 84), rgb(170, 170, 170));
-  border-color: rgba(118, 118, 118, 0.3);
+  background-color:
+    --internal-light-dark(
+      rgba(239 239 239 30%),
+      rgba(59 59 59 30%)
+    );
+  color: --internal-light-dark(rgb(84 84 84), rgb(170 170 170));
+  border-color: rgba(118 118 118 30%);
 }
 
 .main-nav-container {
@@ -76,6 +77,7 @@ input:disabled {
   margin: 0.6rem 0;
   grid-template-columns: 1fr 60% 1fr 5%;
   grid-template-rows: 1fr 1fr 2px;
+  /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
   grid-template-areas:
     "duedate title importance edit"
     "finished description description edit"
