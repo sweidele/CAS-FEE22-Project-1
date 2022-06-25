@@ -53,30 +53,30 @@
       <form id="updateTodoForm" class="update-todo-container">
         <label class="form-item-column">
           <span class="form-item-row">Titel</span>
-          <input id="title" name="title" class="form-item-row" value="{{title}}">
+          <input name="title" class="form-item-row" value="{{title}}">
         </label>
         <label class="form-item-column">
           <span class="form-item-row">Importance</span>
-          <input id="importance" name="importance" type="number" class="form-item-row" value="{{importance}}">
+          <input name="importance" type="number" class="form-item-row" value="{{importance}}">
         </label>
         <label class="form-item-column">
           <span class="form-item-row">Due Date</span>
-          <input id="dueDate" name="dueDate" type="date" class="form-item-row" value="{{dueDate}}">
+          <input name="dueDate" type="date" class="form-item-row" value="{{dueDate}}">
         </label>
         <label class="item-column">
-          <input id="finished" name="finished" type="checkbox" class="item-row" {{#if finished}} checked {{/if}}>
+          <input name="finished" type="checkbox" class="item-row" {{#if finished}} checked {{/if}}>
           <span class="item-row">Finished</span>
         </label>
         <label class="form-item-column">
           <span class="form-item-row">Description</span>
-          <textarea name="description" id="description" class="form-item-row" rows="5">{{description}}</textarea>
+          <textarea name="description" class="form-item-row" rows="5">{{description}}</textarea>
         </label>
         <div class="update-todo-buttons-container item-column">
           <button class="item-row" data-todo-item-id="{{id}}" data-button-type="update" type="submit">Update</button>
-          <button id="updateOverviewButton" class="item-row" data-todo-item-id="{{id}}" data-button-type="updateOverview" type="submit">Update & Overview</button>
+          <button class="item-row" data-todo-item-id="{{id}}" data-button-type="updateOverview" type="submit">Update & Overview</button>
           <button id="overviewButton" class="item-row" data-todo-item-id="{{id}}" type="button">Overview</button>
         </div>
-        <input id="creationDate" name="creationDate" type="hidden" type="date" value="{{creationDate}}">
+        <input name="creationDate" type="hidden" type="date" value="{{creationDate}}">
       </form>
     </script>
   </head>
