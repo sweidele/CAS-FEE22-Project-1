@@ -7,6 +7,7 @@
 body {
   --default-font-family: "Roboto", sans-serif;
   --default-color: rgb(37, 77, 207);
+  --default-clicked-color: rgb(17, 47, 146);
 
   font-family: var(--default-font-family);
   padding-left: 2rem;
@@ -17,6 +18,7 @@ body {
 .funny-skin {
   --default-font-family: "Fascinate", cursive;
   --default-color: rgb(201, 17, 127);
+  --default-clicked-color: rgb(139, 14, 89);
 
   background: rgb(125, 195, 239);
 }
@@ -26,6 +28,11 @@ button {
   color: rgb(255, 255, 255);
   border-radius: 5px;
   padding: 0.5rem;
+}
+
+.sub-nav-button:focus {
+  background: var(--default-clicked-color);
+  font-weight: bold;
 }
 
 input,
