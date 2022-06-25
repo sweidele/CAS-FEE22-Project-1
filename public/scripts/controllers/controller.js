@@ -146,7 +146,7 @@ class Controller {
 
       const formData = new FormData(document.getElementById("updateTodoForm"));
 
-      if (Number.isInteger(todoItemId) || todoItemId === 0) {
+      if (!Number.isInteger(todoItemId) || todoItemId === 0) {
         await this.todoItemModel.addNewItem(formData);
       } else {
         await this.todoItemModel.updateItem(formData, todoItemId);
