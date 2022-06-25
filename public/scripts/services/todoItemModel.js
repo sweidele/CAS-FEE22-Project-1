@@ -21,15 +21,20 @@ export class TodoItemModel {
   }
 
   itemsSortedByTitle() {
-    return this.loadedItems.sort((a, b) => (a.title > b.title ? 1 : -1));
+    return this.loadedItems.sort((a, b) => (
+      a.title.toUpperCase() > b.title.toUpperCase() ? 1 : -1
+    ));
   }
 
   itemsSortedByDueDate() {
-    return this.loadedItems.sort((a, b) => (a.dueDate > b.dueDate ? 1 : -1));
+    return this.loadedItems.sort((a, b) => this.sortDate(a.dueDate, b.dueDate));
   }
 
   itemsSortedByCreationDate() {
-    return this.loadedItems.sort((a, b) => (a.creationDate > b.creationDate ? 1 : -1));
+    return this.loadedItems.sort((a, b) => this.sortDate(
+      a.creationDate,
+      b.creationDate,
+    ));
   }
 
   itemsSortedByImportance() {
@@ -42,6 +47,13 @@ export class TodoItemModel {
 
   getItemById(id) {
     return this.loadedItems.find((item) => item.id === id);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  sortDate(a, b) {
+    const aDate = new Date(a);
+    const bDate = new Date(b);
+    return aDate.getTime() > bDate.getTime() ? 1 : -1;
   }
 }
 
