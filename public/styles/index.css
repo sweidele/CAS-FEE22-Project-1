@@ -5,7 +5,7 @@
 }
 
 body {
-  --default-font-family: 'Roboto', sans-serif;
+  --default-font-family: "Roboto", sans-serif;
   --default-color: rgb(37, 77, 207);
 
   font-family: var(--default-font-family);
@@ -15,7 +15,7 @@ body {
 }
 
 .funny-skin {
-  --default-font-family: 'Fascinate', cursive;
+  --default-font-family: "Fascinate", cursive;
   --default-color: rgb(201, 17, 127);
 
   background: rgb(125, 195, 239);
@@ -25,20 +25,25 @@ button {
   background: var(--default-color);
   color: rgb(255, 255, 255);
   border-radius: 5px;
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
-input, textarea, button{
+input,
+textarea,
+button {
   font-family: var(--default-font-family);
 }
 
-input[type='checkbox']:checked{
+input[type="checkbox"]:checked {
   accent-color: var(--default-color);
 }
 
 input:disabled {
   cursor: default;
-  background-color: -internal-light-dark(rgba(239, 239, 239, 0.3), rgba(59, 59, 59, 0.3));
+  background-color: -internal-light-dark(
+    rgba(239, 239, 239, 0.3),
+    rgba(59, 59, 59, 0.3)
+  );
   color: -internal-light-dark(rgb(84, 84, 84), rgb(170, 170, 170));
   border-color: rgba(118, 118, 118, 0.3);
 }
@@ -49,64 +54,63 @@ input:disabled {
   list-style-type: none;
 }
 
-.main-nav-item:last-of-type, .sub-nav-item:last-of-type{
-      margin-left: auto;
+.main-nav-item:last-of-type,
+.sub-nav-item:last-of-type {
+  margin-left: auto;
 }
 
+.sub-nav-container {
+  display: flex;
+  align-direction: row;
+  list-style-type: none;
+}
 
-  .sub-nav-container {
-    display: flex;
-    align-direction: row;
-    list-style-type: none;
-  }
+.todo-item-grid {
+  display: grid;
+  margin: 0.6rem 0;
+  grid-template-columns: 1fr 60% 1fr 5%;
+  grid-template-rows: 1fr 1fr 2px;
+  grid-template-areas:
+    "duedate title importance edit"
+    "finished description description edit"
+    "line line line line";
+}
 
+.todo-item {
+  margin: 0.6rem 0.3rem;
+}
 
-    .todo-item-grid {
-      display: grid;
-      margin: .6rem 0;
-      grid-template-columns: 1fr 60% 1fr 5%;
-      grid-template-rows: 1fr 1fr 2px;
-      grid-template-areas:
-        "duedate title importance edit"
-        "finished description description edit"
-        "line line line line";
-    }
+.todo-item-duedate {
+  grid-area: duedate;
+}
 
-        .todo-item {
-            margin: .6rem .3rem ;
-        }
-    
-    .todo-item-duedate {
-      grid-area: duedate;
-    }
-    
-    .todo-item-title {
-      grid-area: title;
-    }
-    
-    .todo-item-importance {
-      grid-area: importance;
-      justify-self: end;
-    }
-    
-    .todo-item-finished {
-      grid-area: finished;
-      opacity: 0.5;
-    }
-    
-    .todo-item-description {
-      grid-area: description;
-    }
+.todo-item-title {
+  grid-area: title;
+}
 
-    .todo-item-edit {
-      grid-area: edit;
-      justify-self: end;
-      align-self: center;
-    }
+.todo-item-importance {
+  grid-area: importance;
+  justify-self: end;
+}
 
-    .todo-item-line {
-      grid-area: line;
-    }
+.todo-item-finished {
+  grid-area: finished;
+  opacity: 0.5;
+}
+
+.todo-item-description {
+  grid-area: description;
+}
+
+.todo-item-edit {
+  grid-area: edit;
+  justify-self: end;
+  align-self: center;
+}
+
+.todo-item-line {
+  grid-area: line;
+}
 
 .update-todo-container {
   display: flex;
@@ -114,15 +118,17 @@ input:disabled {
 }
 
 .item-row {
-  margin: 0 .3rem;
+  margin: 0 0.3rem;
 }
 
-.item-column, .form-item-column {
-  margin: .3rem 0;
+.item-column,
+.form-item-column {
+  margin: 0.3rem 0;
 }
 
-.item-column .item-row, .form-item-row{
-  margin: .3rem;
+.item-column .item-row,
+.form-item-row {
+  margin: 0.3rem;
 }
 
 .form-item-column {
@@ -136,13 +142,9 @@ input:disabled {
 }
 
 .disable-element {
-  display:none;
+  display: none;
 }
 
 .material-symbols-outlined {
-  font-variation-settings:
-    'FILL' 0,
-    'wght' 400,
-    'GRAD' 0,
-    'opsz' 24
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
 }

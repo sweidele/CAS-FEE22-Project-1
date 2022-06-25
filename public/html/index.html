@@ -9,17 +9,13 @@
       crossorigin="anonymous"
       defer
     ></script>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Fascinate&display=swap&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 
-
-
-    <script src="../scripts/utils/handlebarsHelpers.js" defer></script>
-
-    <script src="../scripts/controllers/controller.js" type="module" defer></script>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&family=Fascinate&display=swap&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
     <script id="todoItemsTemplate" type="text/x-handlebars-template">
       <ul>
         {{#each this}}
@@ -33,10 +29,10 @@
           </div>
           <label class="todo-item-finished todo-item">
             <input type="checkbox" onclick="return false;" {{#if finished}} checked {{/if}}/>
-              {{#if finished}} 
-                <span class="item-row">Completed</span> 
+              {{#if finished}}
+                <span class="item-row">Completed</span>
               {{else}}
-                <span class="item-row">Open</span> 
+                <span class="item-row">Open</span>
               {{/if}}
           </label>
           <p class="todo-item-description todo-item">{{description}}</p>
@@ -87,34 +83,61 @@
     <header>
       <nav>
         <ul class="main-nav-container item-column">
-          <li class="main-nav-item"><button id="createItemButton" class="item-row">Create</button></li>
-          <li class="main-nav-item"><button id="backButton" class="item-row">Back</button></li>
-          <li class="main-nav-item"><button id="toogleStyleButton" class="item-row">Toogle Style</button></li>
+          <li class="main-nav-item">
+            <button id="createItemButton" class="item-row">Create</button>
+          </li>
+          <li class="main-nav-item">
+            <button id="backButton" class="item-row">Back</button>
+          </li>
+          <li class="main-nav-item">
+            <button id="toogleStyleButton" class="item-row">
+              Toogle Style
+            </button>
+          </li>
         </ul>
       </nav>
     </header>
 
     <main>
-
       <nav id="todoListNav">
         <ul class="sub-nav-container item-column">
-          <li class="sub-nav-item"><button class="item-row" id="filterTitleButton">Name</button></li>
-          <li class="sub-nav-item"><button class="item-row" id="filterDueDateButton">By Due Date</button></li>
-          <li class="sub-nav-item"><button class="item-row" id="filterCreationDateButton">By Creation Date</button></li>
-          <li class="sub-nav-item"><button class="item-row" id="filterImportanceButton">By Importance</button></li>
-          <li class="sub-nav-item"><button class="item-row" id="filterCompletedButton">Filter Completed</button></li>
+          <li class="sub-nav-item">
+            <button class="item-row" id="filterTitleButton">Name</button>
+          </li>
+          <li class="sub-nav-item">
+            <button class="item-row" id="filterDueDateButton">
+              By Due Date
+            </button>
+          </li>
+          <li class="sub-nav-item">
+            <button class="item-row" id="filterCreationDateButton">
+              By Creation Date
+            </button>
+          </li>
+          <li class="sub-nav-item">
+            <button class="item-row" id="filterImportanceButton">
+              By Importance
+            </button>
+          </li>
+          <li class="sub-nav-item">
+            <button class="item-row" id="filterCompletedButton">
+              Filter Completed
+            </button>
+          </li>
         </ul>
       </nav>
-    <div id="todoListContainer">
-
-
-    </div>
-<div id="updateTodoContainer"></div>
-
+      <div id="todoListContainer"></div>
+      <div id="updateTodoContainer"></div>
     </main>
 
     <footer>
       <p>&copy; Stephan</p>
     </footer>
   </body>
+  <script src="../scripts/utils/handlebarsHelpers.js" defer></script>
+  <script
+    src="../scripts/controllers/controller.js"
+    type="module"
+    defer
+  ></script>
 </html>

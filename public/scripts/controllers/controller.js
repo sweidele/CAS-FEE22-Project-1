@@ -1,174 +1,189 @@
-import {TodoItemModel} from '../services/todoItemModel.js';
+import { TodoItemModel } from "../services/todoItemModel.js";
 export class Controller {
-    constructor() {
-        this.todoItemModel = new TodoItemModel();
+  constructor() {
+    this.todoItemModel = new TodoItemModel();
 
-        this.todoItemsTemplateCompiled = Handlebars.compile(document.getElementById('todoItemsTemplate').innerHTML);
-        this.updateTodoTemplateCompiled = Handlebars.compile(document.getElementById('updateTodoTemplate').innerHTML);
+    this.todoItemsTemplateCompiled = Handlebars.compile(
+      document.getElementById("todoItemsTemplate").innerHTML
+    );
+    this.updateTodoTemplateCompiled = Handlebars.compile(
+      document.getElementById("updateTodoTemplate").innerHTML
+    );
 
-        this.createItemButton = document.getElementById('createItemButton');
-        this.backButton = document.getElementById('backButton');
-        this.toogleStyleButton = document.getElementById('toogleStyleButton');
-        this.filterTitleButton = document.getElementById('filterTitleButton');
-        this.filterDueDateButton = document.getElementById('filterDueDateButton');
-        this.filterCreationDateButton = document.getElementById('filterCreationDateButton');
-        this.filterImportanceButton = document.getElementById('filterImportanceButton');
-        this.filterCompletedButton = document.getElementById('filterCompletedButton');
+    this.createItemButton = document.getElementById("createItemButton");
+    this.backButton = document.getElementById("backButton");
+    this.toogleStyleButton = document.getElementById("toogleStyleButton");
+    this.filterTitleButton = document.getElementById("filterTitleButton");
+    this.filterDueDateButton = document.getElementById("filterDueDateButton");
+    this.filterCreationDateButton = document.getElementById(
+      "filterCreationDateButton"
+    );
+    this.filterImportanceButton = document.getElementById(
+      "filterImportanceButton"
+    );
+    this.filterCompletedButton = document.getElementById(
+      "filterCompletedButton"
+    );
 
-        this.overviewButton = undefined; // will initialized after rendering
-        this.updateTodoContainer = document.getElementById('updateTodoContainer');
+    this.overviewButton = undefined; // will initialized after rendering
+    this.updateTodoContainer = document.getElementById("updateTodoContainer");
 
-        this.todoListNav = document.getElementById('todoListNav');
-        this.todoListContainer = document.getElementById('todoListContainer');
+    this.todoListNav = document.getElementById("todoListNav");
+    this.todoListContainer = document.getElementById("todoListContainer");
 
-        this.body = document.querySelector("body");
+    this.body = document.querySelector("body");
+  }
+
+  showCreateButton() {
+    this.backButton.classList.add("disable-element");
+    this.createItemButton.classList.remove("disable-element");
+  }
+
+  showBackButton() {
+    this.createItemButton.classList.add("disable-element");
+    this.backButton.classList.remove("disable-element");
+  }
+
+  showTodoList(todoList = this.todoItemModel.itemsSortedByTitle()) {
+    this.showCreateButton();
+
+    this.updateTodoContainer.classList.add("disable-element");
+    this.todoListContainer.classList.remove("disable-element");
+
+    this.todoListNav.classList.remove("disable-element");
+
+    this.todoListContainer.innerHTML = this.todoItemsTemplateCompiled(todoList);
+  }
+
+  showUpdateTodo(
+    todoList = {
+      id: undefined,
+      title: undefined,
+      description: undefined,
+      creationDate: undefined,
+      dueDate: undefined,
+      importance: undefined,
+      finished: false,
     }
+  ) {
+    this.showBackButton();
 
-    showCreateButton() {
-        this.backButton.classList.add("disable-element");
-        this.createItemButton.classList.remove("disable-element");
-    }
+    this.todoListContainer.classList.add("disable-element");
+    this.todoListNav.classList.add("disable-element");
 
-    showBackButton() {
-        this.createItemButton.classList.add("disable-element");
-        this.backButton.classList.remove("disable-element");
-    }
+    this.updateTodoContainer.classList.remove("disable-element");
 
-    showTodoList(todoList = this.todoItemModel.itemsSortedByTitle()) {
-        this.showCreateButton();
+    this.updateTodoContainer.innerHTML = this.updateTodoTemplateCompiled({
+      title: todoList.title,
+      dueDate: todoList.dueDate,
+      creationDate: todoList.creationDate,
+      importance: todoList.importance,
+      finished: todoList.finished,
+      description: todoList.description,
+      id: todoList.id,
+    });
+    this.initOverviewButtonEventHandler();
+  }
 
-        this.updateTodoContainer.classList.add("disable-element");
-        this.todoListContainer.classList.remove("disable-element");
+  initEventHandlers() {
+    this.createItemButton.addEventListener("click", (event) => {
+      this.showUpdateTodo();
+      console.log("createItemButton klicked");
+    });
 
-        this.todoListNav.classList.remove("disable-element");
+    this.backButton.addEventListener("click", (event) => {
+      this.showTodoList();
+      console.log("backButton klicked");
+    });
 
-        this.todoListContainer.innerHTML = this.todoItemsTemplateCompiled( 
-            todoList
-        );
-    }
+    this.toogleStyleButton.addEventListener("click", (event) => {
+      this.body.classList.toggle("funny-skin");
+      console.log("toogleStyleButton klicked");
+    });
 
-    showUpdateTodo(todoList = {id: undefined, title: undefined, description: undefined, creationDate: undefined, dueDate: undefined, importance: undefined, finished: false}) {
-        this.showBackButton();
+    this.todoListContainer.addEventListener("click", (event) => {
+      const todoItemId = Number(event.target.dataset.todoItemId);
+      if (!isNaN(todoItemId)) {
+        this.showUpdateTodo(this.todoItemModel.getItemById(todoItemId));
+        console.log("todoListContainer klicked");
+      }
+    });
 
-        this.todoListContainer.classList.add("disable-element");
-        this.todoListNav.classList.add("disable-element");
+    this.initSubNavEventHandlers();
+    this.initUpdateItemEventHandlers();
+  }
 
-        this.updateTodoContainer.classList.remove("disable-element");
+  initSubNavEventHandlers() {
+    this.filterTitleButton.addEventListener("click", (event) => {
+      this.showTodoList(this.todoItemModel.itemsSortedByTitle());
+      console.log("filterTitleButton klicked");
+    });
 
-        this.updateTodoContainer.innerHTML = this.updateTodoTemplateCompiled(
+    this.filterDueDateButton.addEventListener("click", (event) => {
+      this.showTodoList(this.todoItemModel.itemsSortedByDueDate());
+      console.log("filterDueDateButton klicked");
+    });
 
-            { title: todoList.title ,
-             dueDate: todoList.dueDate ,
-             creationDate: todoList.creationDate ,
-             importance: todoList.importance ,
-             finished: todoList.finished ,
-             description: todoList.description ,
-             id: todoList.id }
-        );
-        this.initOverviewButtonEventHandler();
-    }
+    this.filterCreationDateButton.addEventListener("click", (event) => {
+      this.showTodoList(this.todoItemModel.itemsSortedBCreationDate());
+      console.log("filterCreationDateButton klicked");
+    });
 
-    initEventHandlers() {
-        this.createItemButton.addEventListener('click', (event) => {
-            this.showUpdateTodo();
-            console.log("createItemButton klicked");
-        });
+    this.filterImportanceButton.addEventListener("click", (event) => {
+      this.showTodoList(this.todoItemModel.itemsSortedByImportance());
+      console.log("filterImportanceButton klicked");
+    });
 
-        this.backButton.addEventListener('click', (event) => {
-            this.showTodoList();
-            console.log("backButton klicked");
-        });
+    this.filterCompletedButton.addEventListener("click", (event) => {
+      this.showTodoList(this.todoItemModel.itemsCompleated());
+      console.log("filterCompletedButton klicked");
+    });
+  }
 
-        this.toogleStyleButton.addEventListener('click', (event) => {
+  async initUpdateItemEventHandlers() {
+    this.updateTodoContainer.addEventListener("submit", async (event) => {
+      event.preventDefault();
 
-             this.body.classList.toggle("funny-skin");
-            console.log("toogleStyleButton klicked");
-        });
+      console.log("updateTodoContainer klicked");
 
-        this.todoListContainer.addEventListener('click', (event) => {
-            const todoItemId = Number(event.target.dataset.todoItemId);
-            if(!isNaN(todoItemId)){
-                this.showUpdateTodo(this.todoItemModel.getItemById(todoItemId));
-                console.log("todoListContainer klicked");
-            }
-        });
+      const buttonType = event.submitter.dataset.buttonType;
+      const todoItemId = Number(event.submitter.dataset.todoItemId);
 
-        this.initSubNavEventHandlers();
-        this.initUpdateItemEventHandlers();
-    }
+      let formData = new FormData(document.getElementById("updateTodoForm"));
 
-    initSubNavEventHandlers() {
-        this.filterTitleButton.addEventListener('click', (event) => {
-            this.showTodoList(this.todoItemModel.itemsSortedByTitle());
-            console.log("filterTitleButton klicked");
-        });
+      if (isNaN(todoItemId) || todoItemId === 0) {
+        await this.todoItemModel.addNewItem(formData);
+      } else {
+        await this.todoItemModel.updateItem(todoItemId, formData);
+      }
 
-        this.filterDueDateButton.addEventListener('click', (event) => {
-            this.showTodoList(this.todoItemModel.itemsSortedByDueDate());
-            console.log("filterDueDateButton klicked");
-        });
-
-        this.filterCreationDateButton.addEventListener('click', (event) => {
-            this.showTodoList(this.todoItemModel.itemsSortedBCreationDate());
-            console.log("filterCreationDateButton klicked");
-        });
-
-        this.filterImportanceButton.addEventListener('click', (event) => {
-            this.showTodoList(this.todoItemModel.itemsSortedByImportance());
-            console.log("filterImportanceButton klicked");
-        });
-
-        this.filterCompletedButton.addEventListener('click', (event) => {
-            this.showTodoList(this.todoItemModel.itemsCompleated());
-            console.log("filterCompletedButton klicked");
-        });
-    }
-
-    async initUpdateItemEventHandlers() {
-        this.updateTodoContainer.addEventListener('submit', async (event) => {
-
-                        event.preventDefault();
-
-            console.log("updateTodoContainer klicked");
-
-            const buttonType = event.submitter.dataset.buttonType;
-            const todoItemId = Number(event.submitter.dataset.todoItemId);
-
-            let formData = new FormData(document.getElementById('updateTodoForm'));
-
-            if(isNaN(todoItemId) || todoItemId === 0){
-                await this.todoItemModel.addNewItem(formData);
-            } else{
-                await this.todoItemModel.updateItem(todoItemId, formData);
-            }
-
-            if(buttonType == "updateOverview"){
-                this.showTodoList();
-                console.log("items wurden angezeigt");
-            }
-            console.log("updateTodoContainer finished");
-        });
-    }
-
-    initOverviewButtonEventHandler(){
-        this.overviewButton = document.getElementById('overviewButton');
-        this.overviewButton.addEventListener('click', (event) => {
-            this.showTodoList();
-            console.log("overviewButton klicked");
-        });
-    }
-
-    renderTodoView() {
-        this.showUpdateTodo();
+      if (buttonType == "updateOverview") {
         this.showTodoList();
-    }
+        console.log("items wurden angezeigt");
+      }
+      console.log("updateTodoContainer finished");
+    });
+  }
 
-    initialize() {
-        this.todoItemModel.loadData();
-        this.renderTodoView();
-        this.initEventHandlers();
-        setTimeout(() => this.showTodoList(), 500);
-    }
+  initOverviewButtonEventHandler() {
+    this.overviewButton = document.getElementById("overviewButton");
+    this.overviewButton.addEventListener("click", (event) => {
+      this.showTodoList();
+      console.log("overviewButton klicked");
+    });
+  }
+
+  renderTodoView() {
+    this.showUpdateTodo();
+    this.showTodoList();
+  }
+
+  initialize() {
+    this.todoItemModel.loadData();
+    this.renderTodoView();
+    this.initEventHandlers();
+    setTimeout(() => this.showTodoList(), 500);
+  }
 }
 
 // create one-and-only instance
