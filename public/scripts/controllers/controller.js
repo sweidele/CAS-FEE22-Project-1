@@ -155,7 +155,7 @@ export class Controller {
       if (isNaN(todoItemId) || todoItemId === 0) {
         await this.todoItemModel.addNewItem(formData);
       } else {
-        await this.todoItemModel.updateItem(todoItemId, formData);
+        await this.todoItemModel.updateItem(formData, todoItemId);
       }
 
       if (buttonType == "updateOverview") {

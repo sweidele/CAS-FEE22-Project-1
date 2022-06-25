@@ -1,17 +1,17 @@
 import { httpService } from "../http-service.js";
 
-export class ItemStore {
+export class RemoteItemStore {
   constructor() {}
 
   async loadItems() {
     return await httpService.ajax("GET", "/todoItems/", undefined);
   }
 
-  async update(id, formData) {
+  async update(formData, todoItemId) {
     httpService.ajax(
       "PUT",
-      "/todoItems/" + id,
-      this.getTodoItemFromFormData(formData, id)
+      "/todoItems/" + todoItemId,
+      this.getTodoItemFromFormData(formData, todoItemId)
     );
   }
 

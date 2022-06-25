@@ -1,14 +1,23 @@
-import { ItemStore } from "./data/itemRemoteStore.js";
+import { RemoteItemStore } from "./data/remoteItemStore.js";
 
 export class TodoItemModel {
   constructor(storage) {
-    this.storage = storage || new ItemStore();
+    this.storage = storage || new RemoteItemStore();
     this.loadedItems = [];
   }
 
   async loadData() {
     this.loadedItems = await this.storage.loadItems();
-    console.log("load item: " + this.loadedItems[0].title);
+  }
+
+  async updateItem(formData, todoItemId) {
+    this.storage.update(formData, todoItemId);
+    await this.loadData();
+  }
+
+  async addNewItem(formData) {
+    this.storage.add(formData);
+    await this.loadData();
   }
 
   itemsSortedByTitle() {
@@ -19,7 +28,7 @@ export class TodoItemModel {
     return this.loadedItems.sort((a, b) => (a.dueDate > b.dueDate ? 1 : -1));
   }
 
-  itemsSortedBCreationDate() {
+  itemsSortedByCreationDate() {
     return this.loadedItems.sort((a, b) =>
       a.creationDate > b.creationDate ? 1 : -1
     );
@@ -27,7 +36,7 @@ export class TodoItemModel {
 
   itemsSortedByImportance() {
     return this.loadedItems.sort((a, b) =>
-      a.importance > b.importance ? 1 : -1
+      a.importance < b.importance ? 1 : -1
     );
   }
 
@@ -37,20 +46,5 @@ export class TodoItemModel {
 
   getItemById(id) {
     return this.loadedItems.find((item) => item.id === id);
-  }
-
-  async updateItem(id, formData) {
-    this.storage.update(id, formData);
-    await this.loadData();
-    console.log("bestehendes Item editiert");
-    console.log("update item: " + this.loadedItems[0].title);
-  }
-
-  async addNewItem(formData) {
-    console.log(formData.get("title"));
-    this.storage.add(formData);
-    await this.loadData();
-    console.log("neues Item Hinzugefügt");
-    console.log("add item: " + this.loadedItems[0].title);
   }
 }
