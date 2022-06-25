@@ -6,11 +6,11 @@ export class ItemStore {
     }
 
     async loadItems() {
-        return httpService.ajax("GET", "/todoItems/", undefined);
+        return await httpService.ajax("GET", "/todoItems/", undefined);
     }
 
     async update(id, formData){
-        return httpService.ajax("PUT", "/todoItems/" + id, this.getTodoItemFromFormData(formData, id));
+        httpService.ajax("PUT", "/todoItems/" + id, this.getTodoItemFromFormData(formData, id));
     }
 
     async add(formData){

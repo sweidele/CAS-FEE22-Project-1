@@ -9,6 +9,8 @@ export class TodoItemModel {
 
     async loadData(){
         this.loadedItems = await this.storage.loadItems();
+        console.log("load item: " + this.loadedItems[0].title);
+
     }
 
     itemsSortedByTitle() {
@@ -37,16 +39,20 @@ export class TodoItemModel {
     }
 
     async updateItem(id, formData){
-        await this.storage.update(id, formData);
-        this.loadData();
+        this.storage.update(id, formData);
+        await this.loadData();
         console.log("bestehendes Item editiert");
+        console.log("update item: " + this.loadedItems[0].title);
+
 
     }
 
     async addNewItem(formData){
                 console.log(formData.get("title"));
-        await this.storage.add(formData);
-        this.loadData();
+        this.storage.add(formData);
+        await this.loadData();
         console.log("neues Item Hinzugefügt");
+        console.log("add item: " + this.loadedItems[0].title);
+
     }
 }

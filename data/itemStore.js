@@ -21,7 +21,7 @@ export class ItemStore {
     }
 
     update(title, description, dueDate, importance, finished, creationDate, id){
-        this.todoItems = this.todoItems.map(item => item.id !== Number(id) ? item : this.getTodoItemFromFormData(title, description, dueDate, importance, finished, creationDate, id));
+        this.todoItems = this.todoItems.map(item => item.id !== id ? item : this.getTodoItemFromFormData(title, description, dueDate, importance, finished, creationDate, id));
     }
 
     add(title, description, dueDate, importance, finished){

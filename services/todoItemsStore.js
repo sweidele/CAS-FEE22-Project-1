@@ -11,16 +11,16 @@ export class TodoItemsStore {
         this.loadedItems = this.storage.loadItems();
     }
 
-    add(title, description, dueDate, importance) {
+    async add(title, description, dueDate, importance) {
         this.storage.add(title, description, dueDate, importance, false);
-        this.loadData();
+        await this.loadData();
         console.log("neues Item Hinzugefügt");
     }
 
-    update(title, description, creationDate, dueDate, importance, finished, id) {
+    async update(title, description, creationDate, dueDate, importance, finished, id) {
 
         this.storage.update(title, description, dueDate, importance, finished, creationDate, id);
-        this.loadData();
+        await this.loadData();
         console.log("bestehendes Item editiert");
 
     }

@@ -10,21 +10,20 @@ export class TodoItemsController {
     createTodoItem = (req, res) => {
         console.log("in createTodoItem");
 
-        res.json(todoItemsStore.add(req.body.title, req.body.descripton, req.body.dueDate, req.body.importance));
-        res.end();
+        todoItemsStore.add(req.body.title, req.body.descripton, req.body.dueDate, req.body.importance);
+
     };
 
     updateTodoItem = (req, res) => {
         console.log("in updateTodoItem");
-        res.json(todoItemsStore.update(
+        todoItemsStore.update(
             req.body.title, 
             req.body.description, 
             req.body.creationDate, 
             req.body.dueDate, 
             req.body.importance, 
             req.body.finished,
-            req.params.id));
-        res.end();
+            Number(req.params.id));
     };
 
 }

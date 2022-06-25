@@ -124,8 +124,12 @@ export class Controller {
         });
     }
 
-    initUpdateItemEventHandlers() {
+    async initUpdateItemEventHandlers() {
         this.updateTodoContainer.addEventListener('submit', async (event) => {
+
+                        event.preventDefault();
+
+            console.log("updateTodoContainer klicked");
 
             const buttonType = event.submitter.dataset.buttonType;
             const todoItemId = Number(event.submitter.dataset.todoItemId);
@@ -133,16 +137,16 @@ export class Controller {
             let formData = new FormData(document.getElementById('updateTodoForm'));
 
             if(isNaN(todoItemId) || todoItemId === 0){
-                this.todoItemModel.addNewItem(formData);
+                await this.todoItemModel.addNewItem(formData);
             } else{
-                this.todoItemModel.updateItem(todoItemId, formData);
+                await this.todoItemModel.updateItem(todoItemId, formData);
             }
 
             if(buttonType == "updateOverview"){
                 this.showTodoList();
+                console.log("items wurden angezeigt");
             }
-            console.log("updateTodoContainer klicked");
-            event.preventDefault();
+            console.log("updateTodoContainer finished");
         });
     }
 
