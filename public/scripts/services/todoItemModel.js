@@ -29,15 +29,11 @@ export class TodoItemModel {
   }
 
   itemsSortedByCreationDate() {
-    return this.loadedItems.sort((a, b) =>
-      a.creationDate > b.creationDate ? 1 : -1
-    );
+    return this.loadedItems.sort((a, b) => (a.creationDate > b.creationDate ? 1 : -1));
   }
 
   itemsSortedByImportance() {
-    return this.loadedItems.sort((a, b) =>
-      a.importance < b.importance ? 1 : -1
-    );
+    return this.loadedItems.sort((a, b) => (a.importance < b.importance ? 1 : -1));
   }
 
   itemsCompleated() {
@@ -48,3 +44,5 @@ export class TodoItemModel {
     return this.loadedItems.find((item) => item.id === id);
   }
 }
+
+export default TodoItemModel;

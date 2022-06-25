@@ -1,5 +1,5 @@
 export class HttpService {
-  ajax(method, url, data, headers) {
+  static ajax(method, url, data, headers) {
     const fetchHeaders = new Headers({
       "content-type": "application/json",
       "Access-Control-Allow-Origin": "*",
@@ -8,13 +8,14 @@ export class HttpService {
     });
 
     return fetch(url, {
-      method: method,
+      method,
       headers: fetchHeaders,
       body: JSON.stringify(data),
-    }).then((x) => {
-      return x.json();
-    });
+    }).then((x) => x.json());
   }
 }
 
-export const httpService = new HttpService();
+// export const httpService = new HttpService();
+export default HttpService;
+
+// export default TodoItemsController;

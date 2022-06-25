@@ -1,18 +1,19 @@
+/* eslint-disable import/extensions */
 import { todoItemsStore } from "../services/todoItemsStore.js";
 
 export class TodoItemsController {
-  getTodoItems = (req, res) => {
+  static getTodoItems = (req, res) => {
     res.json(todoItemsStore.getAllItemsSortedByCreationDate());
     res.end();
   };
 
-  createTodoItem = (req, res) => {
+  static createTodoItem = (req) => {
     todoItemsStore.add(req);
   };
 
-  updateTodoItem = (req, res) => {
+  static updateTodoItem = (req) => {
     todoItemsStore.update(req);
   };
 }
 
-export const todoItemsController = new TodoItemsController();
+export default TodoItemsController;

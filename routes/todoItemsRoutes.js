@@ -1,10 +1,11 @@
 import express from "express";
-import { todoItemsController } from "../controller/todoItemsController.js";
+import { TodoItemsController } from "../controller/todoItemsController.js";
 
 const router = express.Router();
 
-router.get("/", todoItemsController.getTodoItems);
-router.post("/", todoItemsController.createTodoItem);
-router.put("/:id/", todoItemsController.updateTodoItem);
+router.get("/", TodoItemsController.getTodoItems);
+router.post("/", TodoItemsController.createTodoItem);
+router.put("/:id/", TodoItemsController.updateTodoItem);
 
 export const todoItemsRoutes = router;
+export default todoItemsRoutes;

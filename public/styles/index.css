@@ -68,7 +68,6 @@ input:disabled {
 
 .sub-nav-container {
   display: flex;
-  align-direction: row;
   list-style-type: none;
 }
 

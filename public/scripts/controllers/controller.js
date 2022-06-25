@@ -1,32 +1,26 @@
+/* eslint-disable no-undef */
+/* eslint-disable import/extensions */
 import { TodoItemModel } from "../services/todoItemModel.js";
-export class Controller {
+
+class Controller {
   constructor() {
     this.todoItemModel = new TodoItemModel();
 
     this.body = document.querySelector("body");
 
-    //todo item view
-    this.todoItemsTemplateCompiled = Handlebars.compile(
-      document.getElementById("todoItemsTemplate").innerHTML
-    );
+    // todo item view
+    this.todoItemsTemplateCompiled = Handlebars.compile(document.getElementById("todoItemsTemplate").innerHTML);
+
     this.createItemButton = document.getElementById("createItemButton");
     this.toogleStyleButton = document.getElementById("toogleStyleButton");
     this.filterTitleButton = document.getElementById("filterTitleButton");
     this.filterDueDateButton = document.getElementById("filterDueDateButton");
-    this.filterCreationDateButton = document.getElementById(
-      "filterCreationDateButton"
-    );
-    this.filterImportanceButton = document.getElementById(
-      "filterImportanceButton"
-    );
-    this.filterCompletedButton = document.getElementById(
-      "filterCompletedButton"
-    );
+    this.filterCreationDateButton = document.getElementById("filterCreationDateButton");
+    this.filterImportanceButton = document.getElementById("filterImportanceButton");
+    this.filterCompletedButton = document.getElementById("filterCompletedButton");
 
     // update item view
-    this.updateTodoTemplateCompiled = Handlebars.compile(
-      document.getElementById("updateTodoTemplate").innerHTML
-    );
+    this.updateTodoTemplateCompiled = Handlebars.compile(document.getElementById("updateTodoTemplate").innerHTML);
     this.backButton = document.getElementById("backButton");
     this.overviewButton = undefined; // will initialized after rendering
     this.updateTodoContainer = document.getElementById("updateTodoContainer");
@@ -67,7 +61,7 @@ export class Controller {
       dueDate: undefined,
       importance: 1,
       finished: false,
-    }
+    },
   ) {
     this.showUpdateTodoView();
 
@@ -86,7 +80,7 @@ export class Controller {
 
   initOverviewButtonEventHandler() {
     this.overviewButton = document.getElementById("overviewButton");
-    this.overviewButton.addEventListener("click", (event) => {
+    this.overviewButton.addEventListener("click", () => {
       this.showTodoList();
     });
   }
@@ -99,37 +93,37 @@ export class Controller {
   }
 
   initMainNavEventHandlers() {
-    this.createItemButton.addEventListener("click", (event) => {
+    this.createItemButton.addEventListener("click", () => {
       this.showUpdateTodo();
     });
 
-    this.backButton.addEventListener("click", (event) => {
+    this.backButton.addEventListener("click", () => {
       this.showTodoList();
     });
 
-    this.toogleStyleButton.addEventListener("click", (event) => {
+    this.toogleStyleButton.addEventListener("click", () => {
       this.body.classList.toggle("funny-skin");
     });
   }
 
   initSubNavEventHandlers() {
-    this.filterTitleButton.addEventListener("click", (event) => {
+    this.filterTitleButton.addEventListener("click", () => {
       this.showTodoList(this.todoItemModel.itemsSortedByTitle());
     });
 
-    this.filterDueDateButton.addEventListener("click", (event) => {
+    this.filterDueDateButton.addEventListener("click", () => {
       this.showTodoList(this.todoItemModel.itemsSortedByDueDate());
     });
 
-    this.filterCreationDateButton.addEventListener("click", (event) => {
+    this.filterCreationDateButton.addEventListener("click", () => {
       this.showTodoList(this.todoItemModel.itemsSortedByCreationDate());
     });
 
-    this.filterImportanceButton.addEventListener("click", (event) => {
+    this.filterImportanceButton.addEventListener("click", () => {
       this.showTodoList(this.todoItemModel.itemsSortedByImportance());
     });
 
-    this.filterCompletedButton.addEventListener("click", (event) => {
+    this.filterCompletedButton.addEventListener("click", () => {
       this.showTodoList(this.todoItemModel.itemsCompleated());
     });
   }
@@ -137,7 +131,7 @@ export class Controller {
   initEditButtonEventHandler() {
     this.todoListContainer.addEventListener("click", (event) => {
       const todoItemId = Number(event.target.dataset.todoItemId);
-      if (!isNaN(todoItemId)) {
+      if (Number.isInteger(todoItemId)) {
         this.showUpdateTodo(this.todoItemModel.getItemById(todoItemId));
       }
     });
@@ -147,18 +141,18 @@ export class Controller {
     this.updateTodoContainer.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      const buttonType = event.submitter.dataset.buttonType;
+      const { buttonType } = event.submitter.dataset;
       const todoItemId = Number(event.submitter.dataset.todoItemId);
 
-      let formData = new FormData(document.getElementById("updateTodoForm"));
+      const formData = new FormData(document.getElementById("updateTodoForm"));
 
-      if (isNaN(todoItemId) || todoItemId === 0) {
+      if (Number.isInteger(todoItemId) || todoItemId === 0) {
         await this.todoItemModel.addNewItem(formData);
       } else {
         await this.todoItemModel.updateItem(formData, todoItemId);
       }
 
-      if (buttonType == "updateOverview") {
+      if (buttonType === "updateOverview") {
         this.showTodoList();
       }
     });
@@ -178,4 +172,4 @@ export class Controller {
 }
 
 // create one-and-only instance
-new Controller().initialize();
+export default new Controller().initialize();

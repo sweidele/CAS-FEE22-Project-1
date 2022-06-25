@@ -45,10 +45,8 @@ export class ItemStore {
   }
 
   update(req) {
-    this.todoItems = this.todoItems.map((item) =>
-      item.id !== Number(req.params.id)
-        ? item
-        : this.getTodoItemFromFormData(req)
+    this.todoItems = this.todoItems.map(
+      (item) => (item.id !== Number(req.params.id) ? item : this.getTodoItemFromFormData(req)),
     );
   }
 
@@ -68,3 +66,5 @@ export class ItemStore {
     };
   }
 }
+
+export default ItemStore;

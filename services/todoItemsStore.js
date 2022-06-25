@@ -1,4 +1,5 @@
 import { ItemStore } from "../data/itemStore.js";
+
 export class TodoItemsStore {
   constructor() {
     this.storage = new ItemStore();
@@ -21,9 +22,7 @@ export class TodoItemsStore {
   }
 
   getAllItemsSortedByCreationDate() {
-    return this.loadedItems.sort((a, b) =>
-      a.creationDate > b.creationDate ? 1 : -1
-    );
+    return this.loadedItems.sort((a, b) => (a.creationDate > b.creationDate ? 1 : -1));
   }
 }
 

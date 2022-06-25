@@ -1,28 +1,29 @@
-import { httpService } from "../http-service.js";
+/* eslint-disable import/extensions */
+import { HttpService } from "../http-service.js";
 
 export class RemoteItemStore {
-  constructor() {}
-
+  // eslint-disable-next-line class-methods-use-this
   async loadItems() {
-    return await httpService.ajax("GET", "/todoItems/", undefined);
+    return HttpService.ajax("GET", "/todoItems/", undefined);
   }
 
   async update(formData, todoItemId) {
-    httpService.ajax(
+    HttpService.ajax(
       "PUT",
-      "/todoItems/" + todoItemId,
-      this.getTodoItemFromFormData(formData, todoItemId)
+      `/todoItems/${todoItemId}`,
+      this.getTodoItemFromFormData(formData, todoItemId),
     );
   }
 
   async add(formData) {
-    httpService.ajax(
+    HttpService.ajax(
       "POST",
       "/todoItems/",
-      this.getTodoItemFromFormData(formData)
+      this.getTodoItemFromFormData(formData),
     );
   }
 
+  // eslint-disable-next-line class-methods-use-this
   getTodoItemFromFormData(formData, todoItemId) {
     return {
       id: todoItemId || undefined,
@@ -35,3 +36,5 @@ export class RemoteItemStore {
     };
   }
 }
+
+export default RemoteItemStore;
