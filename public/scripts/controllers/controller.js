@@ -88,7 +88,6 @@ export class Controller {
     this.overviewButton = document.getElementById("overviewButton");
     this.overviewButton.addEventListener("click", (event) => {
       this.showTodoList();
-      console.log("overviewButton klicked");
     });
   }
 
@@ -102,44 +101,36 @@ export class Controller {
   initMainNavEventHandlers() {
     this.createItemButton.addEventListener("click", (event) => {
       this.showUpdateTodo();
-      console.log("createItemButton klicked");
     });
 
     this.backButton.addEventListener("click", (event) => {
       this.showTodoList();
-      console.log("backButton klicked");
     });
 
     this.toogleStyleButton.addEventListener("click", (event) => {
       this.body.classList.toggle("funny-skin");
-      console.log("toogleStyleButton klicked");
     });
   }
 
   initSubNavEventHandlers() {
     this.filterTitleButton.addEventListener("click", (event) => {
       this.showTodoList(this.todoItemModel.itemsSortedByTitle());
-      console.log("filterTitleButton klicked");
     });
 
     this.filterDueDateButton.addEventListener("click", (event) => {
       this.showTodoList(this.todoItemModel.itemsSortedByDueDate());
-      console.log("filterDueDateButton klicked");
     });
 
     this.filterCreationDateButton.addEventListener("click", (event) => {
       this.showTodoList(this.todoItemModel.itemsSortedBCreationDate());
-      console.log("filterCreationDateButton klicked");
     });
 
     this.filterImportanceButton.addEventListener("click", (event) => {
       this.showTodoList(this.todoItemModel.itemsSortedByImportance());
-      console.log("filterImportanceButton klicked");
     });
 
     this.filterCompletedButton.addEventListener("click", (event) => {
       this.showTodoList(this.todoItemModel.itemsCompleated());
-      console.log("filterCompletedButton klicked");
     });
   }
 
@@ -148,7 +139,6 @@ export class Controller {
       const todoItemId = Number(event.target.dataset.todoItemId);
       if (!isNaN(todoItemId)) {
         this.showUpdateTodo(this.todoItemModel.getItemById(todoItemId));
-        console.log("todoListContainer klicked");
       }
     });
   }
@@ -156,8 +146,6 @@ export class Controller {
   async initUpdateItemEventHandlers() {
     this.updateTodoContainer.addEventListener("submit", async (event) => {
       event.preventDefault();
-
-      console.log("updateTodoContainer klicked");
 
       const buttonType = event.submitter.dataset.buttonType;
       const todoItemId = Number(event.submitter.dataset.todoItemId);
@@ -172,9 +160,7 @@ export class Controller {
 
       if (buttonType == "updateOverview") {
         this.showTodoList();
-        console.log("items wurden angezeigt");
       }
-      console.log("updateTodoContainer finished");
     });
   }
 
